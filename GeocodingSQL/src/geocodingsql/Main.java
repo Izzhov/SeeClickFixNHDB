@@ -24,8 +24,8 @@ import org.json.JSONArray;
  * @author Izzhov
  */
 public class Main {
-    private String username = "";
-    private String password = "";
+    private String username = "postgres";
+    private String password = "seesomethingclicksomething";
     private static String key = "";
     
     private Connection connection = null;
@@ -98,7 +98,7 @@ public class Main {
         x.closeConnection();
         
         // Now do Geocoding
-        String req = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=" + key;
+        String req = "https://maps.googleapis.com/maps/api/geocode/json?latlng=41.3166662867211,-72.9062497615814&result_type=point_of_interest&key=" + key;
         try{
         URL url = new URL(req + "&sensor=false");
         URLConnection conn = url.openConnection();
@@ -113,7 +113,7 @@ public class Main {
         JSONObject jObject = new JSONObject(req);
         JSONArray resultArray = jObject.getJSONArray("results");
         //this prints out the neighborhood of the provided coordinates
-        System.out.println(resultArray.getJSONObject(0).getJSONArray("address_components").getJSONObject(2).getString("long_name"));
+        System.out.println(resultArray.getJSONObject(0).getJSONArray("address_components").getJSONObject("neighborhood").getString("long_name"));
     }
     
 }
