@@ -24,9 +24,9 @@ import org.json.JSONArray;
  * @author Izzhov
  */
 public class Main {
-    private String username = "postgres";
-    private String password = "seesomethingclicksomething";
-    private static String key = "AIzaSyAWk7neWUDRM2GtdI0FzBjKf3BckOjo-Hs";
+    private String username = "";
+    private String password = "";
+    private static String key = "";
 
     private Connection connection = null;
     public void establishConnection()
@@ -72,7 +72,7 @@ public class Main {
         {
             s = connection.createStatement();
             
-            rs = s.executeQuery("SELECT id, latitude, longitude FROM issues ORDER BY id ASC");
+            rs = s.executeQuery("SELECT id, latitude, longitude FROM issues WHERE id > 140985 ORDER BY id ASC");
         }catch(Exception e)
         {
             System.out.println("Problem in searching the database 1");
@@ -136,6 +136,20 @@ public class Main {
             System.out.println("Problem in updating the database locality");
         }
     }
+    public void insertPC(int id, String PC)
+    {
+        try
+        {
+            Statement s = connection.createStatement();
+            
+            s.executeUpdate("UPDATE issues "
+            + "SET postal_code = " + PC + " "
+            + "WHERE id = " + Integer.toString(id));
+        }catch(Exception e)
+        {
+            System.out.println("Problem in updating the database locality");
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -157,6 +171,7 @@ public class Main {
         String street;
         String neighborhood;
         String locality;
+        String PC;
         
         JSONObject jObject;
         JSONArray resultArray;
@@ -263,6 +278,35 @@ public class Main {
                 locality = compArray.getJSONObject(0).getString("long_name");
                 //now we have to insert these values into the table
                 x.insertLocality(id, locality);
+            }
+            
+            req = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + Double.toString(latitude)
+                    + "," + Double.toString(longitude) + "&result_type=postal_code&key=" + key;
+            try{
+            URL url = new URL(req + "&sensor=false");
+            URLConnection conn = url.openConnection();
+            ByteArrayOutputStream output = new ByteArrayOutputStream(1024);
+            IOUtils.copy(conn.getInputStream(), output);
+            output.close();
+            req = output.toString();
+            } catch(Exception e)
+            {
+                System.out.println("Geocoding Error");
+            }
+            if(req.contains("OVER_QUERY_LIMIT"))
+            {
+                System.out.println("Over Daily Query Limit");
+                System.exit(0);
+            }
+            if(!req.contains("ZERO_RESULTS"))
+            {
+                jObject = new JSONObject(req);
+                resultArray = jObject.getJSONArray("results");
+                compArray = resultArray.getJSONObject(0).getJSONArray("address_components");//component array
+                //store components
+                PC = compArray.getJSONObject(0).getString("long_name");
+                //now we have to insert these values into the table
+                x.insertPC(id, PC);
             }
         }
         } catch(Exception e)
