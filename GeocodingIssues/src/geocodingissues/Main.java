@@ -45,7 +45,7 @@ public class Main {
                System.out.println("Connecting to database...");
            }
         } catch(Exception e){
-            System.out.println("Problem when connecting to the database 1");
+            System.out.println("Problem when connecting to the database");
         }
     }
     public void addColumns()

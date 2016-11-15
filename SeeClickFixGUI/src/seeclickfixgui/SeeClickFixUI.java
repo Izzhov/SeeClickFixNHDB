@@ -8,6 +8,7 @@
 
 package seeclickfixgui;
 
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -243,28 +244,10 @@ public class SeeClickFixUI extends javax.swing.JFrame {
 
     //for now, the Run button just prints the parameters the user has selected
     private void RunButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunButtonActionPerformed
-        
-        //these three lines are dummy values which will later be hooked up to
-        //actual data from the database
-        String[] issues = {"pothole","broken stoplight","abandoned car",
-                           "graffiti","illegal dumping","godzilla attack"};
-        int[] issueNum = { 4, 5, 3, 2, 6, 1};
-        int[] issueTime = { 100, 200, 300, 400, 500, 100}; //this should be changed to whatever datatype time is stored in
-        int[] issueAvgTime = { 5, 10, 15, 20, 25, 100 };
-        
+        String entry, startDate, endDate, neighborhoodFormattedString = "";
         
         int size = SelectedNeighborhoods.getModel().getSize();
-        String entry, startDate, endDate, neighborhoodFormattedString = "";
         ArrayList neighborhoods = new ArrayList(20);
-        Object[][] obj = new Object[issues.length][4]; //for making the table in the popup
-        
-        //initialize the table 
-        for(int i = 0; i < issues.length; i++) {
-            obj[i][0] = issues[i];
-            obj[i][1] = issueNum[i];
-            obj[i][2] = issueTime[i];
-            obj[i][3] = issueAvgTime[i];
-        }
         
         //put together a string of all the selected neighborhoods
         for (int i = 0; i < size; i++) {
@@ -279,11 +262,48 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         startDate =  StartDateSelector.getText();
         endDate = EndDateSelector.getText();
         
+        //convert the start and end dates to SQL timestamp format
+        //first insert zeroes into start month and day where needed
+        if(startDate.indexOf("/") < 2) startDate = "0" + startDate;
+        if(endDate.indexOf("/") < 2) endDate = "0" + endDate;
+        if(startDate.substring(startDate.indexOf("/") + 1).indexOf("/")  + startDate.indexOf("/") + 1 < 5)
+            startDate = startDate.substring(0,3) + "0" + startDate.substring(3);
+        if(endDate.substring(endDate.indexOf("/") + 1).indexOf("/")  + endDate.indexOf("/") + 1 < 5)
+            endDate = endDate.substring(0,3) + "0" + endDate.substring(3);
+        //now rearrange mm/dd/yy to yyyy/mm/dd h
+        String startDateSQL = "'20" + startDate.substring(6) + "-" + startDate.substring(0,2) + "-" + startDate.substring(3,5) + " 00:00:00'";
+        //need to tell SQL to add a day to end date so end date issues are included
+        String endDateSQL = "(timestamp '20" + endDate.substring(6) + "-" + endDate.substring(0,2) + "-" + endDate.substring(3,5) + " 00:00:00' + interval '1 day 00:00:00')";
+        
         //debugging print statements
         System.out.println("You selected the neighborhoods: " + neighborhoods);
         System.out.println("You selected the date range: "
                 + startDate + " to "
                 + endDate);
+        
+        //connect to the SQL server
+        establishConnection();
+        
+        //these three lines are dummy values which will later be hooked up to
+        //actual data from the database
+        String[] issues = {"pothole","broken stoplight","abandoned car",
+                           "graffiti","illegal dumping","godzilla attack"};
+        int[] issueNum = { 4, 5, 3, 2, 6, 1};
+        int[] issueTime = { 100, 200, 300, 400, 500, 100}; //this should be changed to whatever datatype time is stored in
+        int[] issueAvgTime = { 5, 10, 15, 20, 25, 100 };
+        
+        //close connection to SQL server
+        closeConnection();
+        
+        Object[][] obj = new Object[issues.length][4]; //for making the table in the popup
+        
+        //initialize the table 
+        for(int i = 0; i < issues.length; i++) {
+            obj[i][0] = issues[i];
+            obj[i][1] = issueNum[i];
+            obj[i][2] = issueTime[i];
+            obj[i][3] = issueAvgTime[i];
+        }
         
         nfsLabel.setText("<html>" + neighborhoodFormattedString);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -346,6 +366,38 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_RemoveNeighborhoodActionPerformed
 
+    public void establishConnection()
+    {
+        if (connection != null)
+            return;
+        String url = "jdbc:postgresql://50.177.247.244:5432/scf_data";
+        try
+        {
+           Class.forName("org.postgresql.Driver");
+          
+           
+           connection = DriverManager.getConnection(url, username, password);
+           
+           if (connection != null) {
+               System.out.println("Connected to database.");
+           }
+        } catch(Exception e){
+            System.out.println("Problem when connecting to the database");
+        }
+    }
+    
+    public void closeConnection()
+    {
+        try
+        {
+            connection.close();
+            System.out.println("Connection closed.");
+        }catch(Exception e)
+        {
+            System.out.println("Problem closing the connection to the database");
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -378,5 +430,9 @@ public class SeeClickFixUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel nfsLabel;
+
+    private String username = "";
+    private String password = "";
+    private Connection connection = null;
     // End of variables declaration//GEN-END:variables
 }
