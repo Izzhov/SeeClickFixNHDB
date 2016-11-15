@@ -9,7 +9,7 @@
 package seeclickfixgui;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  *
@@ -245,13 +245,17 @@ public class SeeClickFixUI extends javax.swing.JFrame {
     //for now, the Run button just prints the parameters the user has selected
     private void RunButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunButtonActionPerformed
         String entry, startDate, endDate, neighborhoodFormattedString = "";
+        String neighborhoodQuery = "";
         
         int size = SelectedNeighborhoods.getModel().getSize();
-        ArrayList neighborhoods = new ArrayList(20);
+        ArrayList neighborhoods = new ArrayList(22);
         
         //put together a string of all the selected neighborhoods
+        //also make a string to use in the neighborhood-specification in the SQL query
         for (int i = 0; i < size; i++) {
+            if(i != 0) neighborhoodQuery = neighborhoodQuery + " OR ";
             entry = SelectedNeighborhoods.getModel().getElementAt(i);
+            neighborhoodQuery = neighborhoodQuery + "neighborhood = '" + entry +"'";
             //System.out.print(" " + entry);]
             neighborhoods.add(entry);
             neighborhoodFormattedString += ( entry );
@@ -284,25 +288,47 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         //connect to the SQL server
         establishConnection();
         
-        //these three lines are dummy values which will later be hooked up to
-        //actual data from the database
-        String[] issues = {"pothole","broken stoplight","abandoned car",
-                           "graffiti","illegal dumping","godzilla attack"};
-        int[] issueNum = { 4, 5, 3, 2, 6, 1};
-        int[] issueTime = { 100, 200, 300, 400, 500, 100}; //this should be changed to whatever datatype time is stored in
-        int[] issueAvgTime = { 5, 10, 15, 20, 25, 100 };
+        //perform the query and store the results in rs
+        ResultSet rs = performQuery(startDateSQL, endDateSQL, neighborhoodQuery);
+        
+        //declare the table columns
+        LinkedList issues = new LinkedList();
+        LinkedList issueNum = new LinkedList();
+        LinkedList issueTime = new LinkedList();
+        LinkedList issueAvgTime = new LinkedList();
+        
+        try {
+        while (rs.next())
+        {
+            issues.add(rs.getString("name"));
+            issueNum.add(rs.getString("num_issues"));
+            issueTime.add(rs.getString("tot_issue_time"));
+            issueAvgTime.add(rs.getString("avg_issue_time"));
+        }
+        } catch(Exception e)
+        {
+            System.out.println("Problem when analyzing query result.");
+        }
         
         //close connection to SQL server
         closeConnection();
         
-        Object[][] obj = new Object[issues.length][4]; //for making the table in the popup
+        //these three lines are dummy values which will later be hooked up to
+        //actual data from the database
+        //String[] issues = {"pothole","broken stoplight","abandoned car",
+        //                   "graffiti","illegal dumping","godzilla attack"};
+        //int[] issueNum = { 4, 5, 3, 2, 6, 1};
+        //int[] issueTime = { 100, 200, 300, 400, 500, 100}; //this should be changed to whatever datatype time is stored in
+        //int[] issueAvgTime = { 5, 10, 15, 20, 25, 100 };
+        
+        Object[][] obj = new Object[issues.size()][4]; //for making the table in the popup
         
         //initialize the table 
-        for(int i = 0; i < issues.length; i++) {
-            obj[i][0] = issues[i];
-            obj[i][1] = issueNum[i];
-            obj[i][2] = issueTime[i];
-            obj[i][3] = issueAvgTime[i];
+        for(int i = 0; i < issues.size(); i++) {
+            obj[i][0] = issues.get(i);
+            obj[i][1] = issueNum.get(i);
+            obj[i][2] = issueTime.get(i);
+            obj[i][3] = issueAvgTime.get(i);
         }
         
         nfsLabel.setText("<html>" + neighborhoodFormattedString);
@@ -386,11 +412,47 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         }
     }
     
+    public ResultSet performQuery(String startDate, String endDate, String nbhdQuery){
+        ResultSet rs = null;
+        Statement s = null;
+        try
+        {
+            s = connection.createStatement();
+            
+            String queryString = "WITH req_times(id, time) AS "
+                    + "(SELECT request_type_id, (closed_at - created_at) AS issue_time "
+                    + "FROM ((SELECT request_type_id, neighborhood, created_at, " + endDate + " AS closed_at "
+                    + "FROM issues "
+                    + "WHERE created_at >= " + startDate + " AND created_at < " + endDate + " "
+                    + "AND (closed_at IS NULL OR closed_at >= " + endDate + ")) "
+                    + "UNION "
+                    + "(SELECT request_type_id, neighborhood, created_at, closed_at "
+                    + "FROM issues "
+                    + "WHERE created_at >= " + startDate + " AND created_at < " + endDate + " "
+                    + "AND closed_at IS NOT NULL AND closed_at < " + endDate + ")) AS issue_timestamps "
+                    + "WHERE " + nbhdQuery + ") "
+                    + "SELECT name, num_issues, tot_issue_time, (tot_issue_time/num_issues) AS avg_issue_time "
+                    + "FROM request_types, (SELECT id, COUNT(*) AS num_issues, SUM(time) AS tot_issue_time "
+                    + "FROM req_times "
+                    + "GROUP BY id) AS issue_group "
+                    + "WHERE request_types.id = issue_group.id "
+                    + "ORDER BY num_issues DESC";
+            //System.out.println(queryString);
+            
+            rs = s.executeQuery(queryString);
+        }catch(Exception e)
+        {
+            System.out.println("Problem in querying the database");
+        }
+        return rs;
+    }
+    
     public void closeConnection()
     {
         try
         {
             connection.close();
+            connection = null;
             System.out.println("Connection closed.");
         }catch(Exception e)
         {
