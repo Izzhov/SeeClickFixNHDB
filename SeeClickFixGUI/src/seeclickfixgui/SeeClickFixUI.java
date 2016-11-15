@@ -124,7 +124,7 @@ public class SeeClickFixUI extends javax.swing.JFrame {
 
         AllNeighborhoods.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Neighborhoods in New Haven", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         AllNeighborhoods.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Amity", "Annex", "Beaver Hills", "Dixwell", "Downtown", "Dwight", "East Rock", "East Shore", "Edgewood", "Fair Haven", "Fair Haven Heights", "Hill", "Long Wharf", "Newhallville", "Prospect Hill", "Quinnipiac Meadows", "West River", "West Rock", "Westville", "Wooster Square/Mill River" };
+            String[] strings = { "Amity", "Annex", "Beaver Hills", "City Point", "Dixwell", "Downtown", "Dwight", "East Rock", "East Shore", "Edgewood", "Fair Haven", "Fair Haven Heights", "Long Wharf", "Mill River", "Newhallville", "Prospect Hill", "Quinnipiac Meadows", "The Hill", "West River", "West Rock", "Westville", "Wooster Square" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
