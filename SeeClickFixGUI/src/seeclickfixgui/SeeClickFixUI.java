@@ -8,8 +8,7 @@
 
 package seeclickfixgui;
 
-import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -125,7 +124,7 @@ public class SeeClickFixUI extends javax.swing.JFrame {
 
         AllNeighborhoods.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Neighborhoods in New Haven", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         AllNeighborhoods.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Amity", "Annex", "Beaver Hills", "City Point", "Dixwell", "Downtown", "Dwight", "East Rock", "East Shore", "Edgewood", "Fair Haven", "Fair Haven Heights", "Long Wharf", "Mill River", "Newhallville", "Prospect Hill", "Quinnipiac Meadows", "The Hill", "West River", "West Rock", "Westville", "Wooster Square" };
+            String[] strings = { "Amity", "Annex", "Beaver Hills", "Dixwell", "Downtown", "Dwight", "East Rock", "East Shore", "Edgewood", "Fair Haven", "Fair Haven Heights", "Hill", "Long Wharf", "Newhallville", "Prospect Hill", "Quinnipiac Meadows", "West River", "West Rock", "Westville", "Wooster Square/Mill River" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -244,18 +243,32 @@ public class SeeClickFixUI extends javax.swing.JFrame {
 
     //for now, the Run button just prints the parameters the user has selected
     private void RunButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunButtonActionPerformed
-        String entry, startDate, endDate, neighborhoodFormattedString = "";
-        String neighborhoodQuery = "";
+        
+        //these three lines are dummy values which will later be hooked up to
+        //actual data from the database
+        String[] issues = {"pothole","broken stoplight","abandoned car",
+                           "graffiti","illegal dumping","godzilla attack"};
+        int[] issueNum = { 4, 5, 3, 2, 6, 1};
+        int[] issueTime = { 100, 200, 300, 400, 500, 100}; //this should be changed to whatever datatype time is stored in
+        int[] issueAvgTime = { 5, 10, 15, 20, 25, 100 };
+        
         
         int size = SelectedNeighborhoods.getModel().getSize();
-        ArrayList neighborhoods = new ArrayList(22);
+        String entry, startDate, endDate, neighborhoodFormattedString = "";
+        ArrayList neighborhoods = new ArrayList(20);
+        Object[][] obj = new Object[issues.length][4]; //for making the table in the popup
+        
+        //initialize the table 
+        for(int i = 0; i < issues.length; i++) {
+            obj[i][0] = issues[i];
+            obj[i][1] = issueNum[i];
+            obj[i][2] = issueTime[i];
+            obj[i][3] = issueAvgTime[i];
+        }
         
         //put together a string of all the selected neighborhoods
-        //also make a string to use in the neighborhood-specification in the SQL query
         for (int i = 0; i < size; i++) {
-            if(i != 0) neighborhoodQuery = neighborhoodQuery + " OR ";
             entry = SelectedNeighborhoods.getModel().getElementAt(i);
-            neighborhoodQuery = neighborhoodQuery + "neighborhood = '" + entry +"'";
             //System.out.print(" " + entry);]
             neighborhoods.add(entry);
             neighborhoodFormattedString += ( entry );
@@ -266,70 +279,11 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         startDate =  StartDateSelector.getText();
         endDate = EndDateSelector.getText();
         
-        //convert the start and end dates to SQL timestamp format
-        //first insert zeroes into start month and day where needed
-        if(startDate.indexOf("/") < 2) startDate = "0" + startDate;
-        if(endDate.indexOf("/") < 2) endDate = "0" + endDate;
-        if(startDate.substring(startDate.indexOf("/") + 1).indexOf("/")  + startDate.indexOf("/") + 1 < 5)
-            startDate = startDate.substring(0,3) + "0" + startDate.substring(3);
-        if(endDate.substring(endDate.indexOf("/") + 1).indexOf("/")  + endDate.indexOf("/") + 1 < 5)
-            endDate = endDate.substring(0,3) + "0" + endDate.substring(3);
-        //now rearrange mm/dd/yy to yyyy/mm/dd h
-        String startDateSQL = "'20" + startDate.substring(6) + "-" + startDate.substring(0,2) + "-" + startDate.substring(3,5) + " 00:00:00'";
-        //need to tell SQL to add a day to end date so end date issues are included
-        String endDateSQL = "(timestamp '20" + endDate.substring(6) + "-" + endDate.substring(0,2) + "-" + endDate.substring(3,5) + " 00:00:00' + interval '1 day 00:00:00')";
-        
         //debugging print statements
         System.out.println("You selected the neighborhoods: " + neighborhoods);
         System.out.println("You selected the date range: "
                 + startDate + " to "
                 + endDate);
-        
-        //connect to the SQL server
-        establishConnection();
-        
-        //perform the query and store the results in rs
-        ResultSet rs = performQuery(startDateSQL, endDateSQL, neighborhoodQuery);
-        
-        //declare the table columns
-        LinkedList issues = new LinkedList();
-        LinkedList issueNum = new LinkedList();
-        LinkedList issueTime = new LinkedList();
-        LinkedList issueAvgTime = new LinkedList();
-        
-        try {
-        while (rs.next())
-        {
-            issues.add(rs.getString("name"));
-            issueNum.add(rs.getString("num_issues"));
-            issueTime.add(rs.getString("tot_issue_time"));
-            issueAvgTime.add(rs.getString("avg_issue_time"));
-        }
-        } catch(Exception e)
-        {
-            System.out.println("Problem when analyzing query result.");
-        }
-        
-        //close connection to SQL server
-        closeConnection();
-        
-        //these three lines are dummy values which will later be hooked up to
-        //actual data from the database
-        //String[] issues = {"pothole","broken stoplight","abandoned car",
-        //                   "graffiti","illegal dumping","godzilla attack"};
-        //int[] issueNum = { 4, 5, 3, 2, 6, 1};
-        //int[] issueTime = { 100, 200, 300, 400, 500, 100}; //this should be changed to whatever datatype time is stored in
-        //int[] issueAvgTime = { 5, 10, 15, 20, 25, 100 };
-        
-        Object[][] obj = new Object[issues.size()][4]; //for making the table in the popup
-        
-        //initialize the table 
-        for(int i = 0; i < issues.size(); i++) {
-            obj[i][0] = issues.get(i);
-            obj[i][1] = issueNum.get(i);
-            obj[i][2] = issueTime.get(i);
-            obj[i][3] = issueAvgTime.get(i);
-        }
         
         nfsLabel.setText("<html>" + neighborhoodFormattedString);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -392,74 +346,6 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_RemoveNeighborhoodActionPerformed
 
-    public void establishConnection()
-    {
-        if (connection != null)
-            return;
-        String url = "jdbc:postgresql://50.177.247.244:5432/scf_data";
-        try
-        {
-           Class.forName("org.postgresql.Driver");
-          
-           
-           connection = DriverManager.getConnection(url, username, password);
-           
-           if (connection != null) {
-               System.out.println("Connected to database.");
-           }
-        } catch(Exception e){
-            System.out.println("Problem when connecting to the database");
-        }
-    }
-    
-    public ResultSet performQuery(String startDate, String endDate, String nbhdQuery){
-        ResultSet rs = null;
-        Statement s = null;
-        try
-        {
-            s = connection.createStatement();
-            
-            String queryString = "WITH req_times(id, time) AS "
-                    + "(SELECT request_type_id, (closed_at - created_at) AS issue_time "
-                    + "FROM ((SELECT request_type_id, neighborhood, created_at, " + endDate + " AS closed_at "
-                    + "FROM issues "
-                    + "WHERE created_at >= " + startDate + " AND created_at < " + endDate + " "
-                    + "AND (closed_at IS NULL OR closed_at >= " + endDate + ")) "
-                    + "UNION "
-                    + "(SELECT request_type_id, neighborhood, created_at, closed_at "
-                    + "FROM issues "
-                    + "WHERE created_at >= " + startDate + " AND created_at < " + endDate + " "
-                    + "AND closed_at IS NOT NULL AND closed_at < " + endDate + ")) AS issue_timestamps "
-                    + "WHERE " + nbhdQuery + ") "
-                    + "SELECT name, num_issues, tot_issue_time, (tot_issue_time/num_issues) AS avg_issue_time "
-                    + "FROM request_types, (SELECT id, COUNT(*) AS num_issues, SUM(time) AS tot_issue_time "
-                    + "FROM req_times "
-                    + "GROUP BY id) AS issue_group "
-                    + "WHERE request_types.id = issue_group.id "
-                    + "ORDER BY num_issues DESC";
-            //System.out.println(queryString);
-            
-            rs = s.executeQuery(queryString);
-        }catch(Exception e)
-        {
-            System.out.println("Problem in querying the database");
-        }
-        return rs;
-    }
-    
-    public void closeConnection()
-    {
-        try
-        {
-            connection.close();
-            connection = null;
-            System.out.println("Connection closed.");
-        }catch(Exception e)
-        {
-            System.out.println("Problem closing the connection to the database");
-        }
-    }
-    
     /**
      * @param args the command line arguments
      */
@@ -492,9 +378,5 @@ public class SeeClickFixUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel nfsLabel;
-
-    private String username = "";
-    private String password = "";
-    private Connection connection = null;
     // End of variables declaration//GEN-END:variables
 }
