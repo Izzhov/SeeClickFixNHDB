@@ -1,15 +1,12 @@
 /*
  * GUI class for SeeClickFix project
- * Written by Will Dower, using the NetBeans IDE to auto-generate much of
- * the trivial code
- * william.dower@yale.edu
- * 10/29/16
  */
 
 package seeclickfixgui;
 
-import java.util.ArrayList;
-
+import java.sql.*;
+import java.util.*;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator; 
 /**
  *
  * @author Will
@@ -34,10 +31,10 @@ public class SeeClickFixUI extends javax.swing.JFrame {
 
         issuesPopup = new javax.swing.JDialog();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        resultsTable = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         nfsLabel = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        neighborhoodSelect = new javax.swing.JPanel();
         StartDateSelector = new datechooser.beans.DateChooserCombo();
         EndDateSelector = new datechooser.beans.DateChooserCombo();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -50,19 +47,41 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         RunButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        backButtonNeighborhood = new javax.swing.JButton();
+        addAllNeighborhoods = new javax.swing.JButton();
+        removeAllNeighborhoods = new javax.swing.JButton();
+        addressSelect = new javax.swing.JPanel();
+        backButtonAddress = new javax.swing.JButton();
+        addressSelectPrompt = new javax.swing.JLabel();
+        addressSelectComboBox = new javax.swing.JComboBox(new Object[] {"aaa", "aab", "aba", "abb", "bbb"});
+        addressAddButton = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        selectedAddresses = new javax.swing.JList<>();
+        jLabel5 = new javax.swing.JLabel();
+        addressesRemoveSelected = new javax.swing.JButton();
+        addressesRemoveAll = new javax.swing.JButton();
+        addressStartDate = new datechooser.beans.DateChooserCombo();
+        addressEndDate = new datechooser.beans.DateChooserCombo();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        addressesRunButton = new javax.swing.JButton();
+        startSplash = new javax.swing.JPanel();
+        label1 = new java.awt.Label();
+        byNeighborhood = new javax.swing.JButton();
+        byAddress = new javax.swing.JButton();
 
         issuesPopup.setTitle("Issues");
         issuesPopup.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         issuesPopup.setFocusable(false);
         issuesPopup.setIconImage(null);
         issuesPopup.setMinimumSize(new java.awt.Dimension(725, 375));
-        issuesPopup.setPreferredSize(new java.awt.Dimension(725, 375));
         issuesPopup.setType(java.awt.Window.Type.POPUP);
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(452, 350));
         jScrollPane2.setWheelScrollingEnabled(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        resultsTable.setAutoCreateRowSorter(true);
+        resultsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -81,8 +100,8 @@ public class SeeClickFixUI extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jTable1.setFillsViewportHeight(true);
-        jScrollPane2.setViewportView(jTable1);
+        resultsTable.setFillsViewportHeight(true);
+        jScrollPane2.setViewportView(resultsTable);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -120,7 +139,7 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "SeeClickFix", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
+        neighborhoodSelect.setBorder(javax.swing.BorderFactory.createTitledBorder("SeeClickFix"));
 
         AllNeighborhoods.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Neighborhoods in New Haven", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         AllNeighborhoods.setModel(new javax.swing.AbstractListModel<String>() {
@@ -130,16 +149,21 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         });
         AllNeighborhoods.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         AllNeighborhoods.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
+        AllNeighborhoods.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AllNeighborhoodsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(AllNeighborhoods);
 
-        AddNeighborhood.setText("Add Neighborhood");
+        AddNeighborhood.setText("Add Selected");
         AddNeighborhood.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddNeighborhoodActionPerformed(evt);
             }
         });
 
-        RemoveNeighborhood.setText("Remove Neighborhood");
+        RemoveNeighborhood.setText("Remove Selected");
         RemoveNeighborhood.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RemoveNeighborhoodActionPerformed(evt);
@@ -150,6 +174,11 @@ public class SeeClickFixUI extends javax.swing.JFrame {
 
         SelectedNeighborhoods.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Neighborhood(s) Selected", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         SelectedNeighborhoods.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
+        SelectedNeighborhoods.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SelectedNeighborhoodsMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(SelectedNeighborhoods);
 
         RunButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -160,65 +189,288 @@ public class SeeClickFixUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Start Date:");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText("Start Date");
 
-        jLabel3.setText("End Date:");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setText("End Date");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(105, 105, 105)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(AddNeighborhood)
-                            .addComponent(StartDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(277, 277, 277)
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(RemoveNeighborhood)
-                            .addComponent(EndDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(RunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(372, 372, 372))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        backButtonNeighborhood.setText("Go Back");
+        backButtonNeighborhood.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonNeighborhoodActionPerformed(evt);
+            }
+        });
+
+        addAllNeighborhoods.setText("Add All");
+        addAllNeighborhoods.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addAllNeighborhoodsActionPerformed(evt);
+            }
+        });
+
+        removeAllNeighborhoods.setText("Remove All");
+        removeAllNeighborhoods.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeAllNeighborhoodsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout neighborhoodSelectLayout = new javax.swing.GroupLayout(neighborhoodSelect);
+        neighborhoodSelect.setLayout(neighborhoodSelectLayout);
+        neighborhoodSelectLayout.setHorizontalGroup(
+            neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(neighborhoodSelectLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(neighborhoodSelectLayout.createSequentialGroup()
+                        .addGroup(neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                        .addGroup(neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(backButtonNeighborhood, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(neighborhoodSelectLayout.createSequentialGroup()
+                        .addGroup(neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(neighborhoodSelectLayout.createSequentialGroup()
+                                .addComponent(AddNeighborhood)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(addAllNeighborhoods)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, neighborhoodSelectLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(StartDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(54, 54, 54)
+                                .addGroup(neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(EndDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(74, 74, 74)))
+                        .addComponent(removeAllNeighborhoods)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(RemoveNeighborhood)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, neighborhoodSelectLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(RunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(409, 409, 409))
+        );
+        neighborhoodSelectLayout.setVerticalGroup(
+            neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(neighborhoodSelectLayout.createSequentialGroup()
+                .addGroup(neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(neighborhoodSelectLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(backButtonNeighborhood, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(AddNeighborhood, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(RemoveNeighborhood, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(33, 33, 33)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(StartDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EndDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(RemoveNeighborhood)
+                    .addComponent(AddNeighborhood)
+                    .addComponent(addAllNeighborhoods)
+                    .addComponent(removeAllNeighborhoods))
+                .addGap(13, 13, 13)
+                .addGroup(neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(neighborhoodSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(StartDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EndDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(58, 58, 58)
                 .addComponent(RunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+        );
+
+        addressSelect.setBorder(javax.swing.BorderFactory.createTitledBorder("SeeClickFix"));
+        addressSelect.setMinimumSize(new java.awt.Dimension(0, 0));
+        addressSelect.setPreferredSize(new java.awt.Dimension(976, 478));
+
+        backButtonAddress.setText("Go Back");
+        backButtonAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonAddressActionPerformed(evt);
+            }
+        });
+
+        addressSelectPrompt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        addressSelectPrompt.setText("Please enter the address(es) you would like to search.");
+
+        addressSelectComboBox.setEditable(true);
+        AutoCompleteDecorator.decorate(addressSelectComboBox);
+        addressSelectComboBox.setSelectedItem("");
+        addressSelectComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressSelectComboBoxActionPerformed(evt);
+            }
+        });
+
+        addressAddButton.setText("Add");
+        addressAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressAddButtonActionPerformed(evt);
+            }
+        });
+
+        selectedAddresses.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Selected Addresses", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        jScrollPane4.setViewportView(selectedAddresses);
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setText("Search Bar");
+
+        addressesRemoveSelected.setText("Remove Selection");
+        addressesRemoveSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressesRemoveSelectedActionPerformed(evt);
+            }
+        });
+
+        addressesRemoveAll.setText("Remove All");
+        addressesRemoveAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressesRemoveAllActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setText("Start Date");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel8.setText("End Date");
+
+        addressesRunButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        addressesRunButton.setText("Run!");
+        addressesRunButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressesRunButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout addressSelectLayout = new javax.swing.GroupLayout(addressSelect);
+        addressSelect.setLayout(addressSelectLayout);
+        addressSelectLayout.setHorizontalGroup(
+            addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addressSelectLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addressSelectLayout.createSequentialGroup()
+                        .addGroup(addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(addressSelectComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addressSelectPrompt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(addressAddButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(backButtonAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addressSelectLayout.createSequentialGroup()
+                        .addGroup(addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addressStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addGroup(addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addressEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addressSelectLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(addressesRunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(151, 151, 151)
+                        .addComponent(addressesRemoveSelected)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(addressesRemoveAll)))
+                .addContainerGap())
+        );
+        addressSelectLayout.setVerticalGroup(
+            addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addressSelectLayout.createSequentialGroup()
+                .addGroup(addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addressSelectLayout.createSequentialGroup()
+                        .addGroup(addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(backButtonAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addressSelectPrompt))
+                        .addGroup(addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(addressSelectLayout.createSequentialGroup()
+                                .addGap(83, 83, 83)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(addressSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addressAddButton))
+                                .addGap(39, 39, 39)
+                                .addGroup(addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(addressStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addressEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(addressSelectLayout.createSequentialGroup()
+                                .addGap(56, 56, 56)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(addressSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addressesRemoveAll)
+                            .addComponent(addressesRemoveSelected))
+                        .addGap(0, 63, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addressSelectLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(addressesRunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+
+        startSplash.setBorder(javax.swing.BorderFactory.createTitledBorder("SeeClickFix"));
+        startSplash.setMaximumSize(new java.awt.Dimension(976, 478));
+        startSplash.setMinimumSize(new java.awt.Dimension(976, 478));
+        startSplash.setPreferredSize(new java.awt.Dimension(976, 478));
+
+        label1.setText("Welcome to the SeeClickFix New Haven database.  Would you like to search for issues by neighborhood or by street address?");
+
+        byNeighborhood.setText("By neighborhood");
+        byNeighborhood.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                byNeighborhoodActionPerformed(evt);
+            }
+        });
+
+        byAddress.setText("By address");
+        byAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                byAddressActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout startSplashLayout = new javax.swing.GroupLayout(startSplash);
+        startSplash.setLayout(startSplashLayout);
+        startSplashLayout.setHorizontalGroup(
+            startSplashLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(startSplashLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(label1, javax.swing.GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(startSplashLayout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addComponent(byNeighborhood, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(byAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(140, 140, 140))
+        );
+        startSplashLayout.setVerticalGroup(
+            startSplashLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(startSplashLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
+                .addGroup(startSplashLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(byNeighborhood, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(byAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(321, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -227,15 +479,35 @@ public class SeeClickFixUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(neighborhoodSelect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(addressSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 10, Short.MAX_VALUE)
+                    .addComponent(startSplash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 10, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(neighborhoodSelect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(addressSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(startSplash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
@@ -243,32 +515,18 @@ public class SeeClickFixUI extends javax.swing.JFrame {
 
     //for now, the Run button just prints the parameters the user has selected
     private void RunButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunButtonActionPerformed
-        
-        //these three lines are dummy values which will later be hooked up to
-        //actual data from the database
-        String[] issues = {"pothole","broken stoplight","abandoned car",
-                           "graffiti","illegal dumping","godzilla attack"};
-        int[] issueNum = { 4, 5, 3, 2, 6, 1};
-        int[] issueTime = { 100, 200, 300, 400, 500, 100}; //this should be changed to whatever datatype time is stored in
-        int[] issueAvgTime = { 5, 10, 15, 20, 25, 100 };
-        
+        String entry, startDate, endDate, neighborhoodFormattedString = "";
+        String neighborhoodQuery = "";
         
         int size = SelectedNeighborhoods.getModel().getSize();
-        String entry, startDate, endDate, neighborhoodFormattedString = "";
-        ArrayList neighborhoods = new ArrayList(20);
-        Object[][] obj = new Object[issues.length][4]; //for making the table in the popup
-        
-        //initialize the table 
-        for(int i = 0; i < issues.length; i++) {
-            obj[i][0] = issues[i];
-            obj[i][1] = issueNum[i];
-            obj[i][2] = issueTime[i];
-            obj[i][3] = issueAvgTime[i];
-        }
+        ArrayList neighborhoods = new ArrayList(22);
         
         //put together a string of all the selected neighborhoods
+        //also make a string to use in the neighborhood-specification in the SQL query
         for (int i = 0; i < size; i++) {
+            if(i != 0) neighborhoodQuery = neighborhoodQuery + " OR ";
             entry = SelectedNeighborhoods.getModel().getElementAt(i);
+            neighborhoodQuery = neighborhoodQuery + "neighborhood = '" + entry +"'";
             //System.out.print(" " + entry);]
             neighborhoods.add(entry);
             neighborhoodFormattedString += ( entry );
@@ -279,14 +537,73 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         startDate =  StartDateSelector.getText();
         endDate = EndDateSelector.getText();
         
+        //convert the start and end dates to SQL timestamp format
+        //first insert zeroes into start month and day where needed
+        if(startDate.indexOf("/") < 2) startDate = "0" + startDate;
+        if(endDate.indexOf("/") < 2) endDate = "0" + endDate;
+        if(startDate.substring(startDate.indexOf("/") + 1).indexOf("/")  + startDate.indexOf("/") + 1 < 5)
+            startDate = startDate.substring(0,3) + "0" + startDate.substring(3);
+        if(endDate.substring(endDate.indexOf("/") + 1).indexOf("/")  + endDate.indexOf("/") + 1 < 5)
+            endDate = endDate.substring(0,3) + "0" + endDate.substring(3);
+        //now rearrange mm/dd/yy to yyyy/mm/dd h
+        String startDateSQL = "'20" + startDate.substring(6) + "-" + startDate.substring(0,2) + "-" + startDate.substring(3,5) + " 00:00:00'";
+        //need to tell SQL to add a day to end date so end date issues are included
+        String endDateSQL = "(timestamp '20" + endDate.substring(6) + "-" + endDate.substring(0,2) + "-" + endDate.substring(3,5) + " 00:00:00' + interval '1 day 00:00:00')";
+        
         //debugging print statements
         System.out.println("You selected the neighborhoods: " + neighborhoods);
         System.out.println("You selected the date range: "
                 + startDate + " to "
                 + endDate);
         
+        //connect to the SQL server
+        establishConnection();
+        
+        //perform the query and store the results in rs
+        ResultSet rs = performQuery(startDateSQL, endDateSQL, neighborhoodQuery);
+        
+        //declare the table columns
+        LinkedList issues = new LinkedList();
+        LinkedList issueNum = new LinkedList();
+        LinkedList issueTime = new LinkedList();
+        LinkedList issueAvgTime = new LinkedList();
+        
+        try {
+        while (rs.next())
+        {
+            issues.add(rs.getString("name"));
+            issueNum.add(rs.getString("num_issues"));
+            issueTime.add(rs.getString("tot_issue_time"));
+            issueAvgTime.add(rs.getString("avg_issue_time"));
+        }
+        } catch(Exception e)
+        {
+            System.out.println("Problem when analyzing query result.");
+        }
+        
+        //close connection to SQL server
+        closeConnection();
+        
+        //these three lines are dummy values which will later be hooked up to
+        //actual data from the database
+        //String[] issues = {"pothole","broken stoplight","abandoned car",
+        //                   "graffiti","illegal dumping","godzilla attack"};
+        //int[] issueNum = { 4, 5, 3, 2, 6, 1};
+        //int[] issueTime = { 100, 200, 300, 400, 500, 100}; //this should be changed to whatever datatype time is stored in
+        //int[] issueAvgTime = { 5, 10, 15, 20, 25, 100 };
+        
+        Object[][] obj = new Object[issues.size()][4]; //for making the table in the popup
+        
+        //initialize the table 
+        for(int i = 0; i < issues.size(); i++) {
+            obj[i][0] = issues.get(i);
+            obj[i][1] = issueNum.get(i);
+            obj[i][2] = issueTime.get(i);
+            obj[i][3] = issueAvgTime.get(i);
+        }
+        
         nfsLabel.setText("<html>" + neighborhoodFormattedString);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        resultsTable.setModel(new javax.swing.table.DefaultTableModel(
             /*new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -320,6 +637,7 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         //add the new neighborhood to the end of the list
         allEntries[size] = selected;
         //set the selected list to be the new updated version
+        Arrays.sort(allEntries);
         SelectedNeighborhoods.setListData( allEntries );
     }//GEN-LAST:event_AddNeighborhoodActionPerformed
     
@@ -338,14 +656,214 @@ public class SeeClickFixUI extends javax.swing.JFrame {
             if( entry.equals( selected ) ) { offset = 1; continue; }
             newEntries[i - offset] = entry;
         }
-        
-        
-        
         //reset the list to the new version
+        Arrays.sort(newEntries);
         SelectedNeighborhoods.setListData( newEntries );
         
     }//GEN-LAST:event_RemoveNeighborhoodActionPerformed
 
+    private void byNeighborhoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_byNeighborhoodActionPerformed
+        startSplash.setVisible(false);
+        neighborhoodSelect.setVisible(true);        
+    }//GEN-LAST:event_byNeighborhoodActionPerformed
+
+    private void byAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_byAddressActionPerformed
+        startSplash.setVisible(false);
+        addressSelect.setVisible(true);
+    }//GEN-LAST:event_byAddressActionPerformed
+
+    private void backButtonNeighborhoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonNeighborhoodActionPerformed
+        neighborhoodSelect.setVisible(false);
+        startSplash.setVisible(true);
+    }//GEN-LAST:event_backButtonNeighborhoodActionPerformed
+
+    private void backButtonAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonAddressActionPerformed
+        addressSelect.setVisible(false);
+        startSplash.setVisible(true);
+    }//GEN-LAST:event_backButtonAddressActionPerformed
+
+    private void addAllNeighborhoodsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAllNeighborhoodsActionPerformed
+        SelectedNeighborhoods.setModel(AllNeighborhoods.getModel());
+    }//GEN-LAST:event_addAllNeighborhoodsActionPerformed
+
+    private void removeAllNeighborhoodsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeAllNeighborhoodsActionPerformed
+        String[] empty = {};
+        SelectedNeighborhoods.setListData(empty);
+    }//GEN-LAST:event_removeAllNeighborhoodsActionPerformed
+
+    private void AllNeighborhoodsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AllNeighborhoodsMouseClicked
+        if( evt.getClickCount() == 2 ) {
+            String selected = AllNeighborhoods.getSelectedValue();
+            int size = SelectedNeighborhoods.getModel().getSize();
+            String entry;       
+            String[] allEntries = new String[size + 1];
+        
+            //build a list of everything currently in the selected list
+            for (int i = 0; i < size; i++) {
+                entry = SelectedNeighborhoods.getModel().getElementAt(i);
+                //check to make sure the entry hasn't already been added
+                if( entry.equals( selected ) ) { return; }
+                allEntries[i] = entry;
+            }
+            //add the new neighborhood to the end of the list
+            allEntries[size] = selected;
+            //set the selected list to be the new updated version
+            Arrays.sort(allEntries);
+            SelectedNeighborhoods.setListData( allEntries );
+        }
+    }//GEN-LAST:event_AllNeighborhoodsMouseClicked
+
+    private void SelectedNeighborhoodsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SelectedNeighborhoodsMouseClicked
+        if( evt.getClickCount() == 2 ) {
+            String selected = SelectedNeighborhoods.getSelectedValue();
+            int size = SelectedNeighborhoods.getModel().getSize();
+            String entry;       
+            String[] newEntries = new String[size - 1];
+            int offset = 0;
+            //rebuild the list, skipping the selected value
+            for (int i = 0; i < size; i++) {
+                entry = SelectedNeighborhoods.getModel().getElementAt(i);
+                if( entry.equals( selected ) ) { offset = 1; continue; }
+                newEntries[i - offset] = entry;
+            }
+            //reset the list to the new version
+            Arrays.sort(newEntries);
+            SelectedNeighborhoods.setListData( newEntries );   
+        }
+    }//GEN-LAST:event_SelectedNeighborhoodsMouseClicked
+
+    private void addressSelectComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressSelectComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addressSelectComboBoxActionPerformed
+
+    private void addressAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressAddButtonActionPerformed
+        String selected = addressSelectComboBox.getSelectedItem().toString();
+        if(selected == null) { return; } //the button was pressed, but nothing
+                                         //was selected
+        int size = selectedAddresses.getModel().getSize();
+        String entry;       
+        String[] allEntries = new String[size + 1];
+        
+        //build a list of everything currently in the selected list
+        for (int i = 0; i < size; i++) {
+            entry = selectedAddresses.getModel().getElementAt(i);
+            //check to make sure the entry hasn't already been added
+            if( entry.equals( selected ) ) { return; }
+            allEntries[i] = entry;
+        }
+        //add the new neighborhood to the end of the list
+        allEntries[size] = selected;
+        //set the selected list to be the new updated version
+        Arrays.sort(allEntries);
+        selectedAddresses.setListData( allEntries );
+    }//GEN-LAST:event_addressAddButtonActionPerformed
+
+    private void addressesRunButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressesRunButtonActionPerformed
+        String selected, startDate, endDate;
+        startDate =  addressStartDate.getText();
+        endDate = addressEndDate.getText();
+        selected = "";
+        
+        for(int i = 0; i < selectedAddresses.getModel().getSize(); i++) {
+            selected += selectedAddresses.getModel().getElementAt(i) + " ";
+        }
+        
+        System.out.println("You selected the addresses: "  + selected);
+        System.out.println("In the date range: " + startDate + " -- " + endDate);
+    }//GEN-LAST:event_addressesRunButtonActionPerformed
+
+    private void addressesRemoveSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressesRemoveSelectedActionPerformed
+        String selected = selectedAddresses.getSelectedValue();
+        if(selected == null) { return; } //the button was pressed, but nothing
+                                         //was selected
+        int size = selectedAddresses.getModel().getSize();
+        String entry;       
+        String[] newEntries = new String[size - 1];
+        int offset = 0;
+        //rebuild the list, skipping the selected value
+        for (int i = 0; i < size; i++) {
+            entry = selectedAddresses.getModel().getElementAt(i);
+            if( entry.equals( selected ) ) { offset = 1; continue; }
+            newEntries[i - offset] = entry;
+        }
+        //reset the list to the new version
+        Arrays.sort(newEntries);
+        selectedAddresses.setListData( newEntries );
+    }//GEN-LAST:event_addressesRemoveSelectedActionPerformed
+
+    private void addressesRemoveAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressesRemoveAllActionPerformed
+        String[] empty = {};
+        selectedAddresses.setListData(empty);
+    }//GEN-LAST:event_addressesRemoveAllActionPerformed
+
+    public void establishConnection()
+    {
+        if (connection != null)
+            return;
+        String url = "jdbc:postgresql://50.177.247.244:5432/scf_data";
+        try
+        {
+           Class.forName("org.postgresql.Driver");
+          
+           
+           connection = DriverManager.getConnection(url, username, password);
+           
+           if (connection != null) {
+               System.out.println("Connected to database.");
+           }
+        } catch(Exception e){
+            System.out.println("Problem when connecting to the database");
+        }
+    }
+    
+    public ResultSet performQuery(String startDate, String endDate, String nbhdQuery){
+        ResultSet rs = null;
+        Statement s = null;
+        try
+        {
+            s = connection.createStatement();
+            
+            String queryString = "WITH req_times(id, time) AS "
+                    + "(SELECT request_type_id, (closed_at - created_at) AS issue_time "
+                    + "FROM ((SELECT request_type_id, neighborhood, created_at, " + endDate + " AS closed_at "
+                    + "FROM issues "
+                    + "WHERE created_at >= " + startDate + " AND created_at < " + endDate + " "
+                    + "AND (closed_at IS NULL OR closed_at >= " + endDate + ")) "
+                    + "UNION "
+                    + "(SELECT request_type_id, neighborhood, created_at, closed_at "
+                    + "FROM issues "
+                    + "WHERE created_at >= " + startDate + " AND created_at < " + endDate + " "
+                    + "AND closed_at IS NOT NULL AND closed_at < " + endDate + ")) AS issue_timestamps "
+                    + "WHERE " + nbhdQuery + ") "
+                    + "SELECT name, num_issues, tot_issue_time, (tot_issue_time/num_issues) AS avg_issue_time "
+                    + "FROM request_types, (SELECT id, COUNT(*) AS num_issues, SUM(time) AS tot_issue_time "
+                    + "FROM req_times "
+                    + "GROUP BY id) AS issue_group "
+                    + "WHERE request_types.id = issue_group.id "
+                    + "ORDER BY num_issues DESC";
+            //System.out.println(queryString);
+            
+            rs = s.executeQuery(queryString);
+        }catch(Exception e)
+        {
+            System.out.println("Problem in querying the database");
+        }
+        return rs;
+    }
+    
+    public void closeConnection()
+    {
+        try
+        {
+            connection.close();
+            connection = null;
+            System.out.println("Connection closed.");
+        }catch(Exception e)
+        {
+            System.out.println("Problem closing the connection to the database");
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -353,11 +871,19 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SeeClickFixUI().setVisible(true);
+                SeeClickFixUI ui = new SeeClickFixUI();
+                ui.setVisible(true);
+                ui.addressSelect.setVisible(false);
+                ui.neighborhoodSelect.setVisible(false);
+                ui.startSplash.setVisible(true);
+                
             }
         });
     }
 
+    private String username = "postgres";
+    private String password = "havens1260havenots";
+    private Connection connection = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddNeighborhood;
@@ -367,16 +893,38 @@ public class SeeClickFixUI extends javax.swing.JFrame {
     private javax.swing.JButton RunButton;
     private javax.swing.JList<String> SelectedNeighborhoods;
     private datechooser.beans.DateChooserCombo StartDateSelector;
+    private javax.swing.JButton addAllNeighborhoods;
+    private javax.swing.JButton addressAddButton;
+    private datechooser.beans.DateChooserCombo addressEndDate;
+    private javax.swing.JPanel addressSelect;
+    private javax.swing.JComboBox<String> addressSelectComboBox;
+    private javax.swing.JLabel addressSelectPrompt;
+    private datechooser.beans.DateChooserCombo addressStartDate;
+    private javax.swing.JButton addressesRemoveAll;
+    private javax.swing.JButton addressesRemoveSelected;
+    private javax.swing.JButton addressesRunButton;
+    private javax.swing.JButton backButtonAddress;
+    private javax.swing.JButton backButtonNeighborhood;
+    private javax.swing.JButton byAddress;
+    private javax.swing.JButton byNeighborhood;
     private javax.swing.JDialog issuesPopup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane4;
+    private java.awt.Label label1;
+    private javax.swing.JPanel neighborhoodSelect;
     private javax.swing.JLabel nfsLabel;
+    private javax.swing.JButton removeAllNeighborhoods;
+    private javax.swing.JTable resultsTable;
+    private javax.swing.JList<String> selectedAddresses;
+    private javax.swing.JPanel startSplash;
     // End of variables declaration//GEN-END:variables
 }
