@@ -53,7 +53,151 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         addressSelect = new javax.swing.JPanel();
         backButtonAddress = new javax.swing.JButton();
         addressSelectPrompt = new javax.swing.JLabel();
-        addressSelectComboBox = new javax.swing.JComboBox(new Object[] {"aaa", "aab", "aba", "abb", "bbb"});
+        addressSelectComboBox = new javax.swing.JComboBox(new Object[] {"1st Avenue", "1st Street", "2nd Street", "3rd Street", "4th Street", 
+ "5th Street", "6th Street", "Academy Street", "Adeline Street", 
+ "Admiral Street", "Alabama Street", "Alden Avenue", "Alfred Street", 
+ "Allen Place", "Alston Avenue", "Alton Street", "Amistad Street", 
+ "Anderson Street", "Anita Street", "Anthony Street", "Arch Street", 
+ "Arden Street", "Argonne Street", "Artizan Street", "Ashland Place", 
+ "Ashmun Street", "Assumption Street", "Asylum Street", "Atwater Street", 
+ "Auburn Street", "Audubon Court", "Audubon Street", "Austin Street", 
+ "Autumn Street", "Avon Street", "Barclay Street", "Barnes Avenue", 
+ "Barnett Street", "Bassett Street", "Batter Terrace", "Beacon Avenue", 
+ "Beaver Hill Lane", "Beecher Place", "Beechwood Lane", "Beers Street", 
+ "Bellevue Road", "Benton Street", "Beverly Road", "Bishop Street", 
+ "Blake Street", "Blatchley Avenue", "Boston Avenue", "Boston Post Road", 
+ "Bradley Street", "Brewery Square", "Brewery Street", "Brewster Street", 
+ "Bright Street", "Bristol Place", "Bristol Street", "Broadway", 
+ "Brooklawn Circle", "Brookside Avenue", "Brownell Street", "Brown Street", 
+ "Burns Street", "Burr Street", "Burton Street", "Burwell Street", 
+ "Butler Street", "Button Street", "Cabot Street", "Canal Street", 
+ "Canner Street", "Carlisle Street", "Carmel Street", "Carroll Street", 
+ "Castle Street", "Cave Street", "Cedar Hill Avenue", "Cedar Street", 
+ "Center Street", "Central Avenue", "Chambers Street", "Chapel Street", 
+ "Charles Street", "Chatham Street", "Cherry Ann Street", "Chester Street", 
+ "Chestnut Street", "Church Street", "Church Street South", "Cinque Green", 
+ "Clarendon Street", "Clark Street", "Clay Street", "Cleveland Road", 
+ "Cliff Street", "Clifton Street", "Clinton Avenue", "Clinton Place", 
+ "Clover Place", "Cold Spring Street", "College Street", "Colonial Place", 
+ "Colony Road", "Columbus Avenue", "Compton Street", "Concord Street", 
+ "Congress Avenue", "Connecticut 10", "Connecticut 103", "Connecticut 122", 
+ "Connecticut 243", "Connecticut 34", "Connecticut 63", "Connecticut Avenue", 
+ "Conrad Drive", "Constance Baker Motley Street", "Cooper Place", 
+ "Cora Street", "Cottage Street", "County Street", "Court Street", 
+ "Cove Street", "Cranston Street", "Crescent Street", "Crofton Street", 
+ "Crown Street", "Daisy Street", "Daniel Drive", "Davenport Avenue", 
+ "Davis Street", "Day Street", "Dayton Street", "Dean Street", "Dell Drive", 
+ "Derby Avenue", "Dewitt Street", "Diamond Street", "Dickerman Street", 
+ "Division Street", "Dixwell Avenue", "Donna Drive", "Dorchester Terrace", 
+ "Dorman Street", "Douglass Avenue", "Dover Street", "Downing Street", 
+ "Dwight Street", "Dyer Street", "Eagle Street", "Earl Street", 
+ "Eastern Street", "East Grand Avenue", "East Pearl Street", 
+ "East Rock Road", "East Street", "Edgehill Road", "Edgewood Avenue", 
+ "Edgewood Way", "Edwards Street", "Elaine Terrace", "Eldridge Street", 
+ "Eld Street", "Elizabeth Ann Drive", "Elizabeth Street", 
+ "Ella T Grasso Boulevard", "Elliot Street", "Ellsworth Avenue", 
+ "Elmer Street", "Elm Street", "Emerson Street", "Emily Road", 
+ "Englewood Drive", "English Street", "Essex Street", "Everit Street", 
+ "Exchange Street", "Fairfield Street", "Fairmont Avenue", "Fair Street", 
+ "Farnham Avenue", "Ferry Street", "Fillmore Street", "Fitch Street", 
+ "Flint Street", "Florence Avenue", "Forbes Avenue", "Forest Road", 
+ "Fort Hale Park Road", "Fort Hale Road", "Foster Street", "Fountain Street", 
+ "Fountain Terrace", "Fournier Street", "Fowler Street", "Foxon Boulevard", 
+ "Foxon Hill Road", "Foxon Street", "Fox Street", "Frances Hunter Drive", 
+ "Franklin Street", "Frank Street", "Frederick Street", "Front Street", 
+ "Fulton Street", "Gando Drive", "Garden Street", "George Street", 
+ "Gibbs Street", "Gilbert Avenue", "Gilbert Street", "Girard Avenue", 
+ "Glen Haven Road", "Glen Road", "Glenview Terrace", "Goffe Street", 
+ "Goffe Terrace", "Goodyear Street", "Grace Street", "Grafton Street", 
+ "Grand Avenue", "Greene Street", "Green Hill Terrace", "Greenwich Avenue", 
+ "Greenwood Street", "Grove Street", "Hallock Avenue", "Hallock Street", 
+ "Hall Street", "Harding Place", "Hard Street", "Harper Avenue", 
+ "Harrington Avenue", "Harrison Street", "Haven Street", "Hazel Street", 
+ "Hemingway Place", "Hemingway Street", "Hemlock Road", "Henry Street", 
+ "Hervey Street", "Highland Street", "High Street", "Highview Lane", 
+ "Hillhouse Avenue", "Hillside Avenue", "Hilltop Road", "Hine Place", 
+ "Hobart Street", "Horsley Avenue", "Hotchkiss Street", "Houston Street", 
+ "Howard Avenue", "Howard Street", "Howe Street", "Hubinger Street", 
+ "Hughes Place", "Humphrey Street", "Huntington Avenue", "Huntington Road", 
+ "Huntington Street", "Hurlburt Street", "Hyde Street", "Irving Street", 
+ "Irvington Street", "Ives Place", "Ivy Street", "James Street", 
+ "Jefferson Street", "Jewell Street", "Johnston Street", "John Street", 
+ "John W Murphy Drive", "Judith Terrace", "Judson Avenue", "Judwin Avenue", 
+ "Kenny Drive", "Kensington Street", "Kenter Place", "Kimberly Avenue", 
+ "King Place", "Kneeland Road", "Knollwood Drive", "Kossuth Street", 
+ "Lafayette Street", "Lake Place", "Lakeview Terrace", "Lamberton Street", 
+ "Lancraft Street", "Laura Lane", "Laurel Road", "Lawncrest Road", 
+ "Lawrence Street", "Legend Lane", "Legion Avenue", "Leila Street", 
+ "Lenox Street", "Leroy Terrace", "Lewis Street", "Lexington Avenue", 
+ "Ley Street", "Liberty Street", "Lighthouse Point Terrace", 
+ "Lighthouse Road", "Lilac Street", "Limerick Street", "Lincoln Street", 
+ "Lincoln Way", "Linden Street", "Livingston Street", "Lloyd Street", 
+ "Lombard Street", "Long Wharf Drive", "Loomis Place", "Loop Road", 
+ "Lowin Avenue", "Lynwood Place", "Lyon Street", "Main Street", 
+ "Main Street Annex", "Maltby Place", "Maltby Street", "Mansfield Street", 
+ "Mansion Street", "Maple Street", "Maplewood Road", "Marion Street", 
+ "Marlin Drive", "Martin Luther King Jr. Boulevard", "Marvel Road", 
+ "Massachusetts Avenue", "McKinley Avenue", "Meadow Street", 
+ "Meadow View Road", "Mead Street", "Mechanic Street", "Melrose Drive", 
+ "Middletown Avenue", "Mill River Street", "Mill Street", "Milton Street", 
+ "Minor Street", "Mitchell Drive", "Monroe Street", "Morris Avenue", 
+ "Morris Causeway", "Morris Cove Road", "Morris Street", "Morse Place", 
+ "Morton Lane", "Mountain Top Lane", "Munson Street", "Myron Street", 
+ "Nash Street", "Nelson Street", "Newhall Street", "Nicoll Street", 
+ "North Bank Street", "North Frontage Road", "Norton Parkway", 
+ "Norton Street", "Norwood Road", "Oakley Street", "Oak Ridge Drive", 
+ "Oak Street", "Oak Street Connector", "Ocean View Street", "Ogden Street", 
+ "Oliver Road", "Olive Street", "Orange Street", "Orchard Street", 
+ "Osborn Avenue", "Osborn Street", "Oxford Street", "Palmieri Avenue", 
+ "Pardee Place", "Pardee Street", "Parker Place", "Park Lane", 
+ "Parkside Drive", "Park Street", "Parmelee Avenue", "Pawtucket Street", 
+ "Pearl Street", "Peat Meadow Road", "Peck Alley", "Peck Street", 
+ "Pelham Lane", "Pendleton Street", "Perkins Street", "Philip Street", 
+ "Pierpont Street", "Pine Street", "Pitkin Street Tunnel", "Plant Street", 
+ "Platt Street", "Pleasant Street", "Plymouth Street", "Pond Lily Avenue", 
+ "Pond Street", "Pope Street", "Poplar Street", "Porter Street", 
+ "Portland Street", "Portsea Street", "Prince Street", "Prospect Avenue", 
+ "Prospect Street", "Putnam Street", "Quinnipiac Avenue", "Ramsdell Street", 
+ "Raynham Road", "Ray Road", "Read Street", "Redfield Street", 
+ "Reservoir Street", "Revere Street", "Rhea Street", "Richard Street", 
+ "Richmond Avenue", "Ridge Street", "River Street", "Rock Creek Road", 
+ "Rock Hill Road", "Rock Street", "Rock View Terrace", "Roger Road", 
+ "Roger White Drive", "Roosevelt Street", "Rosette Street", 
+ "Rosewood Avenue", "Route 1", "Rowe Street", "Roydon Road", "Ruby Street", 
+ "Runo Terrace", "Russell Street", "Sachem Street", "Saint John Street", 
+ "Saint Peters Street", "Saint Ronan Street", "Salem Street", 
+ "Saltonstall Avenue", "Sargent Drive", "Science Park", "Scranton Street", 
+ "Sea Street", "Seneca Road", "Sheffield Avenue", "Sheldon Terrace", 
+ "Shelter Street", "Shelton Avenue", "Sherland Avenue", "Sherman Avenue", 
+ "Sherman Parkway", "Shoreham Road", "Smith Avenue", "Sound View Terrace", 
+ "South End Road", "South Frontage Road", "South Orange Street", 
+ "South Wallace Street", "South Water Street", "Spencer Place", 
+ "Sperry Street", "Springside Avenue", "Spring Street", "Stanley Street", 
+ "Starr Street", "State Street", "Stevenson Road", "Stevens Street", 
+ "Stimson Road", "Strong Street", "Stuyvesant Avenue", "Summit Street", 
+ "Sylvan Avenue", "Taylor Avenue", "Temple Court", "Temple Street", 
+ "Terrace Street", "Thompson Street", "Tilton Street", "Tolli Terrace", 
+ "Tour Avenue", "Tower Parkway", "Townsend Avenue", "Townsend Street", 
+ "Townsend Terrace", "Truman Street", "Trumbull Street", "Tuttle Drive", 
+ "Tuttle Street", "Union Avenue", "Union Street", "University Place", 
+ "Upson Terrace", "U.S. 5", "Valley Place North", "Valley Street", 
+ "Vernon Street", "Victory Drive", "View Street", "Vine Street", 
+ "Vision Trail", "Vista Terrace", "Wallace Street", "Wall Street", 
+ "Walnut Street", "Ward Street", "Warren Place", "Warren Street", 
+ "Warwick Street", "Washington Avenue", "Waterfront Street", "Water Street", 
+ "Watson Street", "Webster Street", "Welcome Street", "Welton Street", 
+ "Westbrook Lane", "West Division Street", "West Elm Street", 
+ "Westerleigh Road", "West Hazel Street", "West Hills Road", 
+ "West Ivy Street", "West Park Avenue", "West Prospect Street", 
+ "West Read Street", "West Rock Avenue", "West Street", "Westwood Road", 
+ "Weybosset Street", "Whalley Avenue", "White Street", "Whitney Avenue", 
+ "Whittier Road", "Whittlesey Avenue", "Wilcox Place", "Willard Street", 
+ "William Street", "Willis Street", "Willow Street", "Wilmot Road", 
+ "Wilson Street", "Winchester Avenue", "Wintergreen Avenue", 
+ "Winthrop Avenue", "Wolcott Street", "Woodbridge Avenue", "Woodland Street", 
+ "Woodside Terrace", "Woodward Avenue", "Woolsey Street", "Wooster Place", 
+ "Wooster Street", "Wright Avenue", "Yale Avenue", "York Street", 
+ "Young Street"});
         addressAddButton = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         selectedAddresses = new javax.swing.JList<>();
@@ -105,7 +249,7 @@ public class SeeClickFixUI extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel4.setText("<html>You are viewing the issues for these neighborhoods:");
+        jLabel4.setText("<html>You are viewing the issues for these locations:");
         jLabel4.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         nfsLabel.setText("jLabel5");
@@ -759,9 +903,40 @@ public class SeeClickFixUI extends javax.swing.JFrame {
     }//GEN-LAST:event_addressAddButtonActionPerformed
 
     private void addressesRunButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressesRunButtonActionPerformed
-        String selected, startDate, endDate;
+        String entry, selected, startDate, endDate, addressFormattedString = "";
+        String addressQuery = "";
+        
+        int size = selectedAddresses.getModel().getSize();
+        ArrayList addresses = new ArrayList(564);
+        
+        //put together a string of all the selected addresses
+        //also make a string to use in the address-specification in the SQL query
+        for (int i = 0; i < size; i++) {
+            if(i != 0) addressQuery = addressQuery + " OR ";
+            entry = selectedAddresses.getModel().getElementAt(i);
+            addressQuery = addressQuery + "street = '" + entry +"'";
+            //System.out.print(" " + entry);]
+            addresses.add(entry);
+            addressFormattedString += ( entry );
+            if(i < size - 1 ) { addressFormattedString += ", "; }
+        }
+        
         startDate =  addressStartDate.getText();
         endDate = addressEndDate.getText();
+        
+        //convert the start and end dates to SQL timestamp format
+        //first insert zeroes into start month and day where needed
+        if(startDate.indexOf("/") < 2) startDate = "0" + startDate;
+        if(endDate.indexOf("/") < 2) endDate = "0" + endDate;
+        if(startDate.substring(startDate.indexOf("/") + 1).indexOf("/")  + startDate.indexOf("/") + 1 < 5)
+            startDate = startDate.substring(0,3) + "0" + startDate.substring(3);
+        if(endDate.substring(endDate.indexOf("/") + 1).indexOf("/")  + endDate.indexOf("/") + 1 < 5)
+            endDate = endDate.substring(0,3) + "0" + endDate.substring(3);
+        //now rearrange mm/dd/yy to yyyy/mm/dd h
+        String startDateSQL = "'20" + startDate.substring(6) + "-" + startDate.substring(0,2) + "-" + startDate.substring(3,5) + " 00:00:00'";
+        //need to tell SQL to add a day to end date so end date issues are included
+        String endDateSQL = "(timestamp '20" + endDate.substring(6) + "-" + endDate.substring(0,2) + "-" + endDate.substring(3,5) + " 00:00:00' + interval '1 day 00:00:00')";
+        
         selected = "";
         
         for(int i = 0; i < selectedAddresses.getModel().getSize(); i++) {
@@ -770,6 +945,58 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         
         System.out.println("You selected the addresses: "  + selected);
         System.out.println("In the date range: " + startDate + " -- " + endDate);
+        
+        //connect to the SQL server
+        establishConnection();
+        
+        //perform the query and store the results in rs
+        ResultSet rs = performAddressQuery(startDateSQL, endDateSQL, addressQuery);
+        
+        //declare the table columns
+        LinkedList issues = new LinkedList();
+        LinkedList issueNum = new LinkedList();
+        LinkedList issueTime = new LinkedList();
+        LinkedList issueAvgTime = new LinkedList();
+        
+        try {
+        while (rs.next())
+        {
+            issues.add(rs.getString("name"));
+            issueNum.add(rs.getString("num_issues"));
+            issueTime.add(rs.getString("tot_issue_time"));
+            issueAvgTime.add(rs.getString("avg_issue_time"));
+        }
+        } catch(Exception e)
+        {
+            System.out.println("Problem when analyzing query result.");
+        }
+        
+        //close connection to SQL server
+        closeConnection();
+        
+        Object[][] obj = new Object[issues.size()][4]; //for making the table in the popup
+        
+        //initialize the table 
+        for(int i = 0; i < issues.size(); i++) {
+            obj[i][0] = issues.get(i);
+            obj[i][1] = issueNum.get(i);
+            obj[i][2] = issueTime.get(i);
+            obj[i][3] = issueAvgTime.get(i);
+        }
+        
+        nfsLabel.setText("<html>" + addressFormattedString);
+        resultsTable.setModel(new javax.swing.table.DefaultTableModel(
+            /*new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            }*/obj,
+            new String [] {
+                "Issue Type", "Total Issues", "Total Issue Time", "Avg Issue Time"
+            })
+        ); 
+        issuesPopup.setVisible(true);   
     }//GEN-LAST:event_addressesRunButtonActionPerformed
 
     private void addressesRemoveSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressesRemoveSelectedActionPerformed
@@ -851,6 +1078,41 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         return rs;
     }
     
+        public ResultSet performAddressQuery(String startDate, String endDate, String addressQuery){
+        ResultSet rs = null;
+        Statement s = null;
+        try
+        {
+            s = connection.createStatement();
+            
+            String queryString = "WITH req_times(id, time) AS "
+                    + "(SELECT request_type_id, (closed_at - created_at) AS issue_time "
+                    + "FROM ((SELECT request_type_id, street, created_at, " + endDate + " AS closed_at "
+                    + "FROM issues "
+                    + "WHERE created_at >= " + startDate + " AND created_at < " + endDate + " "
+                    + "AND (closed_at IS NULL OR closed_at >= " + endDate + ")) "
+                    + "UNION "
+                    + "(SELECT request_type_id, street, created_at, closed_at "
+                    + "FROM issues "
+                    + "WHERE created_at >= " + startDate + " AND created_at < " + endDate + " "
+                    + "AND closed_at IS NOT NULL AND closed_at < " + endDate + ")) AS issue_timestamps "
+                    + "WHERE " + addressQuery + ") "
+                    + "SELECT name, num_issues, tot_issue_time, (tot_issue_time/num_issues) AS avg_issue_time "
+                    + "FROM request_types, (SELECT id, COUNT(*) AS num_issues, SUM(time) AS tot_issue_time "
+                    + "FROM req_times "
+                    + "GROUP BY id) AS issue_group "
+                    + "WHERE request_types.id = issue_group.id "
+                    + "ORDER BY num_issues DESC";
+            //System.out.println(queryString);
+            
+            rs = s.executeQuery(queryString);
+        }catch(Exception e)
+        {
+            System.out.println("Problem in querying the database");
+        }
+        return rs;
+    }
+    
     public void closeConnection()
     {
         try
@@ -882,7 +1144,7 @@ public class SeeClickFixUI extends javax.swing.JFrame {
     }
 
     private String username = "postgres";
-    private String password = "havens1260havenots";
+    private String password = "";
     private Connection connection = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
