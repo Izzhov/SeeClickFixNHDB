@@ -23,15 +23,28 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel4" alignment="0" min="-2" pref="206" max="-2" attributes="0"/>
-                      <Component id="nfsLabel" pref="226" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="nfsLabel" pref="226" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                          <Component id="dateLabel" min="-2" pref="206" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="33" max="32767" attributes="0"/>
+              </Group>
+              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="jLabel6" min="-2" pref="206" max="-2" attributes="0"/>
+                      <EmptySpace pref="499" max="32767" attributes="0"/>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -39,13 +52,21 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jScrollPane2" min="-2" pref="300" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="jLabel4" min="-2" pref="38" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="nfsLabel" min="-2" pref="399" max="-2" attributes="0"/>
+                          <Component id="nfsLabel" min="-2" pref="209" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                          <Component id="dateLabel" min="-2" pref="38" max="-2" attributes="0"/>
                       </Group>
+                  </Group>
+                  <EmptySpace min="-2" pref="680" max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                      <Component id="jLabel6" min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace pref="932" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -106,18 +127,18 @@
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()"/>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="resultsTable.setAutoCreateRowSorter(true);"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="resultsTable.setAutoCreateRowSorter(true);&#xa;TableRowSorter&lt;TableModel&gt; sorter = new TableRowSorter&lt;&gt;(resultsTable.getModel());&#xa;resultsTable.setRowSorter(sorter);&#xa;List&lt;SortKey&gt; sortKeys = new ArrayList&lt;&gt;();&#xa; &#xa;int columnIndexToSort = 1;&#xa;//sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));&#xa; &#xa;//sorter.setSortKeys(sortKeys);&#xa;sorter.sort();"/>
               </AuxValues>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="jLabel4">
+        <Component class="javax.swing.JLabel" name="dateLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="2"/>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;You are viewing the issues for these neighborhoods:"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;In the date range:"/>
             <Property name="verticalTextPosition" type="int" value="1"/>
           </Properties>
         </Component>
@@ -125,6 +146,16 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="jLabel5"/>
             <Property name="verticalAlignment" type="int" value="1"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel6">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="1"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="2"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;You are viewing the issues for these areas:"/>
+            <Property name="verticalTextPosition" type="int" value="1"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -162,9 +193,9 @@
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
                   <Component id="addressSelect" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
               </Group>
           </Group>
           <Group type="103" rootIndex="2" groupAlignment="0" attributes="0">
@@ -227,39 +258,49 @@
                               <Component id="jScrollPane3" alignment="1" min="-2" pref="435" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Component id="StartDateSelector" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="EndDateSelector" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                               <Group type="102" attributes="0">
                                   <Component id="AddNeighborhood" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="addAllNeighborhoods" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <Component id="StartDateSelector" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="EndDateSelector" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="removeAllNeighborhoods" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="RemoveNeighborhood" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="removeAllNeighborhoods" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="RemoveNeighborhood" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="RunButton" min="-2" pref="125" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="neighborhoodSortColumnSelect" pref="173" max="32767" attributes="0"/>
+                                          <Component id="neighborhoodSortDirSelect" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="RunButton" min="-2" pref="125" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="409" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -285,18 +326,38 @@
                       <Component id="addAllNeighborhoods" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="removeAllNeighborhoods" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="StartDateSelector" min="-2" max="-2" attributes="0"/>
-                      <Component id="EndDateSelector" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
+                          <Component id="RunButton" min="-2" pref="65" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="StartDateSelector" min="-2" max="-2" attributes="0"/>
+                              <Component id="neighborhoodSortColumnSelect" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="EndDateSelector" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="neighborhoodSortDirSelect" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
-                  <Component id="RunButton" min="-2" pref="65" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -428,7 +489,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="11" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Start Date"/>
+            <Property name="text" type="java.lang.String" value="Start Date:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
@@ -436,7 +497,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="11" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="End Date"/>
+            <Property name="text" type="java.lang.String" value="End Date:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="backButtonNeighborhood">
@@ -462,6 +523,50 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeAllNeighborhoodsActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="neighborhoodSortColumnSelect">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="Issue Type"/>
+                <StringItem index="1" value="Total Issues"/>
+                <StringItem index="2" value="Total Issue Time"/>
+                <StringItem index="3" value="Average Issue Time"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="neighborhoodSortDirSelect">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="2">
+                <StringItem index="0" value="Ascending"/>
+                <StringItem index="1" value="Descending"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel4">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Sort by Attribute:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel9">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Sort Direction:"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -492,31 +597,50 @@
                               <Component id="addressSelectPrompt" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="addressAddButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="backButtonAddress" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="addressAddButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="backButtonAddress" min="-2" pref="100" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="addressStartDate" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="addressEndDate" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="99" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="addressEndDate" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="147" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="jScrollPane4" min="-2" pref="384" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="addressesRunButton" min="-2" pref="125" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="151" max="-2" attributes="0"/>
-                          <Component id="addressesRemoveSelected" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="addressesRemoveAll" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="194" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="addressesRunButton" min="-2" pref="125" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="151" max="-2" attributes="0"/>
+                                  <Component id="addressesRemoveSelected" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="addressesRemoveAll" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="addressSortColumnSelect" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="addressSortDirSelect" alignment="0" min="-2" pref="173" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="577" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -542,14 +666,25 @@
                                       <Component id="addressAddButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="addressStartDate" min="-2" max="-2" attributes="0"/>
-                                      <Component id="addressEndDate" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="addressStartDate" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                                          <Component id="addressEndDate" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="addressSortColumnSelect" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                          <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="addressSortDirSelect" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -562,7 +697,7 @@
                               <Component id="addressesRemoveAll" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="addressesRemoveSelected" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="55" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="63" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -602,7 +737,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addressSelectComboBoxActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox(new Object[] {&quot;aaa&quot;, &quot;aab&quot;, &quot;aba&quot;, &quot;abb&quot;, &quot;bbb&quot;})"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox(new Object[] {&quot;1st Avenue&quot;, &quot;1st Street&quot;, &quot;2nd Street&quot;, &quot;3rd Street&quot;, &quot;4th Street&quot;, &#xa; &quot;5th Street&quot;, &quot;6th Street&quot;, &quot;Academy Street&quot;, &quot;Adeline Street&quot;, &#xa; &quot;Admiral Street&quot;, &quot;Alabama Street&quot;, &quot;Alden Avenue&quot;, &quot;Alfred Street&quot;, &#xa; &quot;Allen Place&quot;, &quot;Alston Avenue&quot;, &quot;Alton Street&quot;, &quot;Amistad Street&quot;, &#xa; &quot;Anderson Street&quot;, &quot;Anita Street&quot;, &quot;Anthony Street&quot;, &quot;Arch Street&quot;, &#xa; &quot;Arden Street&quot;, &quot;Argonne Street&quot;, &quot;Artizan Street&quot;, &quot;Ashland Place&quot;, &#xa; &quot;Ashmun Street&quot;, &quot;Assumption Street&quot;, &quot;Asylum Street&quot;, &quot;Atwater Street&quot;, &#xa; &quot;Auburn Street&quot;, &quot;Audubon Court&quot;, &quot;Audubon Street&quot;, &quot;Austin Street&quot;, &#xa; &quot;Autumn Street&quot;, &quot;Avon Street&quot;, &quot;Barclay Street&quot;, &quot;Barnes Avenue&quot;, &#xa; &quot;Barnett Street&quot;, &quot;Bassett Street&quot;, &quot;Batter Terrace&quot;, &quot;Beacon Avenue&quot;, &#xa; &quot;Beaver Hill Lane&quot;, &quot;Beecher Place&quot;, &quot;Beechwood Lane&quot;, &quot;Beers Street&quot;, &#xa; &quot;Bellevue Road&quot;, &quot;Benton Street&quot;, &quot;Beverly Road&quot;, &quot;Bishop Street&quot;, &#xa; &quot;Blake Street&quot;, &quot;Blatchley Avenue&quot;, &quot;Boston Avenue&quot;, &quot;Boston Post Road&quot;, &#xa; &quot;Bradley Street&quot;, &quot;Brewery Square&quot;, &quot;Brewery Street&quot;, &quot;Brewster Street&quot;, &#xa; &quot;Bright Street&quot;, &quot;Bristol Place&quot;, &quot;Bristol Street&quot;, &quot;Broadway&quot;, &#xa; &quot;Brooklawn Circle&quot;, &quot;Brookside Avenue&quot;, &quot;Brownell Street&quot;, &quot;Brown Street&quot;, &#xa; &quot;Burns Street&quot;, &quot;Burr Street&quot;, &quot;Burton Street&quot;, &quot;Burwell Street&quot;, &#xa; &quot;Butler Street&quot;, &quot;Button Street&quot;, &quot;Cabot Street&quot;, &quot;Canal Street&quot;, &#xa; &quot;Canner Street&quot;, &quot;Carlisle Street&quot;, &quot;Carmel Street&quot;, &quot;Carroll Street&quot;, &#xa; &quot;Castle Street&quot;, &quot;Cave Street&quot;, &quot;Cedar Hill Avenue&quot;, &quot;Cedar Street&quot;, &#xa; &quot;Center Street&quot;, &quot;Central Avenue&quot;, &quot;Chambers Street&quot;, &quot;Chapel Street&quot;, &#xa; &quot;Charles Street&quot;, &quot;Chatham Street&quot;, &quot;Cherry Ann Street&quot;, &quot;Chester Street&quot;, &#xa; &quot;Chestnut Street&quot;, &quot;Church Street&quot;, &quot;Church Street South&quot;, &quot;Cinque Green&quot;, &#xa; &quot;Clarendon Street&quot;, &quot;Clark Street&quot;, &quot;Clay Street&quot;, &quot;Cleveland Road&quot;, &#xa; &quot;Cliff Street&quot;, &quot;Clifton Street&quot;, &quot;Clinton Avenue&quot;, &quot;Clinton Place&quot;, &#xa; &quot;Clover Place&quot;, &quot;Cold Spring Street&quot;, &quot;College Street&quot;, &quot;Colonial Place&quot;, &#xa; &quot;Colony Road&quot;, &quot;Columbus Avenue&quot;, &quot;Compton Street&quot;, &quot;Concord Street&quot;, &#xa; &quot;Congress Avenue&quot;, &quot;Connecticut 10&quot;, &quot;Connecticut 103&quot;, &quot;Connecticut 122&quot;, &#xa; &quot;Connecticut 243&quot;, &quot;Connecticut 34&quot;, &quot;Connecticut 63&quot;, &quot;Connecticut Avenue&quot;, &#xa; &quot;Conrad Drive&quot;, &quot;Constance Baker Motley Street&quot;, &quot;Cooper Place&quot;, &#xa; &quot;Cora Street&quot;, &quot;Cottage Street&quot;, &quot;County Street&quot;, &quot;Court Street&quot;, &#xa; &quot;Cove Street&quot;, &quot;Cranston Street&quot;, &quot;Crescent Street&quot;, &quot;Crofton Street&quot;, &#xa; &quot;Crown Street&quot;, &quot;Daisy Street&quot;, &quot;Daniel Drive&quot;, &quot;Davenport Avenue&quot;, &#xa; &quot;Davis Street&quot;, &quot;Day Street&quot;, &quot;Dayton Street&quot;, &quot;Dean Street&quot;, &quot;Dell Drive&quot;, &#xa; &quot;Derby Avenue&quot;, &quot;Dewitt Street&quot;, &quot;Diamond Street&quot;, &quot;Dickerman Street&quot;, &#xa; &quot;Division Street&quot;, &quot;Dixwell Avenue&quot;, &quot;Donna Drive&quot;, &quot;Dorchester Terrace&quot;, &#xa; &quot;Dorman Street&quot;, &quot;Douglass Avenue&quot;, &quot;Dover Street&quot;, &quot;Downing Street&quot;, &#xa; &quot;Dwight Street&quot;, &quot;Dyer Street&quot;, &quot;Eagle Street&quot;, &quot;Earl Street&quot;, &#xa; &quot;Eastern Street&quot;, &quot;East Grand Avenue&quot;, &quot;East Pearl Street&quot;, &#xa; &quot;East Rock Road&quot;, &quot;East Street&quot;, &quot;Edgehill Road&quot;, &quot;Edgewood Avenue&quot;, &#xa; &quot;Edgewood Way&quot;, &quot;Edwards Street&quot;, &quot;Elaine Terrace&quot;, &quot;Eldridge Street&quot;, &#xa; &quot;Eld Street&quot;, &quot;Elizabeth Ann Drive&quot;, &quot;Elizabeth Street&quot;, &#xa; &quot;Ella T Grasso Boulevard&quot;, &quot;Elliot Street&quot;, &quot;Ellsworth Avenue&quot;, &#xa; &quot;Elmer Street&quot;, &quot;Elm Street&quot;, &quot;Emerson Street&quot;, &quot;Emily Road&quot;, &#xa; &quot;Englewood Drive&quot;, &quot;English Street&quot;, &quot;Essex Street&quot;, &quot;Everit Street&quot;, &#xa; &quot;Exchange Street&quot;, &quot;Fairfield Street&quot;, &quot;Fairmont Avenue&quot;, &quot;Fair Street&quot;, &#xa; &quot;Farnham Avenue&quot;, &quot;Ferry Street&quot;, &quot;Fillmore Street&quot;, &quot;Fitch Street&quot;, &#xa; &quot;Flint Street&quot;, &quot;Florence Avenue&quot;, &quot;Forbes Avenue&quot;, &quot;Forest Road&quot;, &#xa; &quot;Fort Hale Park Road&quot;, &quot;Fort Hale Road&quot;, &quot;Foster Street&quot;, &quot;Fountain Street&quot;, &#xa; &quot;Fountain Terrace&quot;, &quot;Fournier Street&quot;, &quot;Fowler Street&quot;, &quot;Foxon Boulevard&quot;, &#xa; &quot;Foxon Hill Road&quot;, &quot;Foxon Street&quot;, &quot;Fox Street&quot;, &quot;Frances Hunter Drive&quot;, &#xa; &quot;Franklin Street&quot;, &quot;Frank Street&quot;, &quot;Frederick Street&quot;, &quot;Front Street&quot;, &#xa; &quot;Fulton Street&quot;, &quot;Gando Drive&quot;, &quot;Garden Street&quot;, &quot;George Street&quot;, &#xa; &quot;Gibbs Street&quot;, &quot;Gilbert Avenue&quot;, &quot;Gilbert Street&quot;, &quot;Girard Avenue&quot;, &#xa; &quot;Glen Haven Road&quot;, &quot;Glen Road&quot;, &quot;Glenview Terrace&quot;, &quot;Goffe Street&quot;, &#xa; &quot;Goffe Terrace&quot;, &quot;Goodyear Street&quot;, &quot;Grace Street&quot;, &quot;Grafton Street&quot;, &#xa; &quot;Grand Avenue&quot;, &quot;Greene Street&quot;, &quot;Green Hill Terrace&quot;, &quot;Greenwich Avenue&quot;, &#xa; &quot;Greenwood Street&quot;, &quot;Grove Street&quot;, &quot;Hallock Avenue&quot;, &quot;Hallock Street&quot;, &#xa; &quot;Hall Street&quot;, &quot;Harding Place&quot;, &quot;Hard Street&quot;, &quot;Harper Avenue&quot;, &#xa; &quot;Harrington Avenue&quot;, &quot;Harrison Street&quot;, &quot;Haven Street&quot;, &quot;Hazel Street&quot;, &#xa; &quot;Hemingway Place&quot;, &quot;Hemingway Street&quot;, &quot;Hemlock Road&quot;, &quot;Henry Street&quot;, &#xa; &quot;Hervey Street&quot;, &quot;Highland Street&quot;, &quot;High Street&quot;, &quot;Highview Lane&quot;, &#xa; &quot;Hillhouse Avenue&quot;, &quot;Hillside Avenue&quot;, &quot;Hilltop Road&quot;, &quot;Hine Place&quot;, &#xa; &quot;Hobart Street&quot;, &quot;Horsley Avenue&quot;, &quot;Hotchkiss Street&quot;, &quot;Houston Street&quot;, &#xa; &quot;Howard Avenue&quot;, &quot;Howard Street&quot;, &quot;Howe Street&quot;, &quot;Hubinger Street&quot;, &#xa; &quot;Hughes Place&quot;, &quot;Humphrey Street&quot;, &quot;Huntington Avenue&quot;, &quot;Huntington Road&quot;, &#xa; &quot;Huntington Street&quot;, &quot;Hurlburt Street&quot;, &quot;Hyde Street&quot;, &quot;Irving Street&quot;, &#xa; &quot;Irvington Street&quot;, &quot;Ives Place&quot;, &quot;Ivy Street&quot;, &quot;James Street&quot;, &#xa; &quot;Jefferson Street&quot;, &quot;Jewell Street&quot;, &quot;Johnston Street&quot;, &quot;John Street&quot;, &#xa; &quot;John W Murphy Drive&quot;, &quot;Judith Terrace&quot;, &quot;Judson Avenue&quot;, &quot;Judwin Avenue&quot;, &#xa; &quot;Kenny Drive&quot;, &quot;Kensington Street&quot;, &quot;Kenter Place&quot;, &quot;Kimberly Avenue&quot;, &#xa; &quot;King Place&quot;, &quot;Kneeland Road&quot;, &quot;Knollwood Drive&quot;, &quot;Kossuth Street&quot;, &#xa; &quot;Lafayette Street&quot;, &quot;Lake Place&quot;, &quot;Lakeview Terrace&quot;, &quot;Lamberton Street&quot;, &#xa; &quot;Lancraft Street&quot;, &quot;Laura Lane&quot;, &quot;Laurel Road&quot;, &quot;Lawncrest Road&quot;, &#xa; &quot;Lawrence Street&quot;, &quot;Legend Lane&quot;, &quot;Legion Avenue&quot;, &quot;Leila Street&quot;, &#xa; &quot;Lenox Street&quot;, &quot;Leroy Terrace&quot;, &quot;Lewis Street&quot;, &quot;Lexington Avenue&quot;, &#xa; &quot;Ley Street&quot;, &quot;Liberty Street&quot;, &quot;Lighthouse Point Terrace&quot;, &#xa; &quot;Lighthouse Road&quot;, &quot;Lilac Street&quot;, &quot;Limerick Street&quot;, &quot;Lincoln Street&quot;, &#xa; &quot;Lincoln Way&quot;, &quot;Linden Street&quot;, &quot;Livingston Street&quot;, &quot;Lloyd Street&quot;, &#xa; &quot;Lombard Street&quot;, &quot;Long Wharf Drive&quot;, &quot;Loomis Place&quot;, &quot;Loop Road&quot;, &#xa; &quot;Lowin Avenue&quot;, &quot;Lynwood Place&quot;, &quot;Lyon Street&quot;, &quot;Main Street&quot;, &#xa; &quot;Main Street Annex&quot;, &quot;Maltby Place&quot;, &quot;Maltby Street&quot;, &quot;Mansfield Street&quot;, &#xa; &quot;Mansion Street&quot;, &quot;Maple Street&quot;, &quot;Maplewood Road&quot;, &quot;Marion Street&quot;, &#xa; &quot;Marlin Drive&quot;, &quot;Martin Luther King Jr. Boulevard&quot;, &quot;Marvel Road&quot;, &#xa; &quot;Massachusetts Avenue&quot;, &quot;McKinley Avenue&quot;, &quot;Meadow Street&quot;, &#xa; &quot;Meadow View Road&quot;, &quot;Mead Street&quot;, &quot;Mechanic Street&quot;, &quot;Melrose Drive&quot;, &#xa; &quot;Middletown Avenue&quot;, &quot;Mill River Street&quot;, &quot;Mill Street&quot;, &quot;Milton Street&quot;, &#xa; &quot;Minor Street&quot;, &quot;Mitchell Drive&quot;, &quot;Monroe Street&quot;, &quot;Morris Avenue&quot;, &#xa; &quot;Morris Causeway&quot;, &quot;Morris Cove Road&quot;, &quot;Morris Street&quot;, &quot;Morse Place&quot;, &#xa; &quot;Morton Lane&quot;, &quot;Mountain Top Lane&quot;, &quot;Munson Street&quot;, &quot;Myron Street&quot;, &#xa; &quot;Nash Street&quot;, &quot;Nelson Street&quot;, &quot;Newhall Street&quot;, &quot;Nicoll Street&quot;, &#xa; &quot;North Bank Street&quot;, &quot;North Frontage Road&quot;, &quot;Norton Parkway&quot;, &#xa; &quot;Norton Street&quot;, &quot;Norwood Road&quot;, &quot;Oakley Street&quot;, &quot;Oak Ridge Drive&quot;, &#xa; &quot;Oak Street&quot;, &quot;Oak Street Connector&quot;, &quot;Ocean View Street&quot;, &quot;Ogden Street&quot;, &#xa; &quot;Oliver Road&quot;, &quot;Olive Street&quot;, &quot;Orange Street&quot;, &quot;Orchard Street&quot;, &#xa; &quot;Osborn Avenue&quot;, &quot;Osborn Street&quot;, &quot;Oxford Street&quot;, &quot;Palmieri Avenue&quot;, &#xa; &quot;Pardee Place&quot;, &quot;Pardee Street&quot;, &quot;Parker Place&quot;, &quot;Park Lane&quot;, &#xa; &quot;Parkside Drive&quot;, &quot;Park Street&quot;, &quot;Parmelee Avenue&quot;, &quot;Pawtucket Street&quot;, &#xa; &quot;Pearl Street&quot;, &quot;Peat Meadow Road&quot;, &quot;Peck Alley&quot;, &quot;Peck Street&quot;, &#xa; &quot;Pelham Lane&quot;, &quot;Pendleton Street&quot;, &quot;Perkins Street&quot;, &quot;Philip Street&quot;, &#xa; &quot;Pierpont Street&quot;, &quot;Pine Street&quot;, &quot;Pitkin Street Tunnel&quot;, &quot;Plant Street&quot;, &#xa; &quot;Platt Street&quot;, &quot;Pleasant Street&quot;, &quot;Plymouth Street&quot;, &quot;Pond Lily Avenue&quot;, &#xa; &quot;Pond Street&quot;, &quot;Pope Street&quot;, &quot;Poplar Street&quot;, &quot;Porter Street&quot;, &#xa; &quot;Portland Street&quot;, &quot;Portsea Street&quot;, &quot;Prince Street&quot;, &quot;Prospect Avenue&quot;, &#xa; &quot;Prospect Street&quot;, &quot;Putnam Street&quot;, &quot;Quinnipiac Avenue&quot;, &quot;Ramsdell Street&quot;, &#xa; &quot;Raynham Road&quot;, &quot;Ray Road&quot;, &quot;Read Street&quot;, &quot;Redfield Street&quot;, &#xa; &quot;Reservoir Street&quot;, &quot;Revere Street&quot;, &quot;Rhea Street&quot;, &quot;Richard Street&quot;, &#xa; &quot;Richmond Avenue&quot;, &quot;Ridge Street&quot;, &quot;River Street&quot;, &quot;Rock Creek Road&quot;, &#xa; &quot;Rock Hill Road&quot;, &quot;Rock Street&quot;, &quot;Rock View Terrace&quot;, &quot;Roger Road&quot;, &#xa; &quot;Roger White Drive&quot;, &quot;Roosevelt Street&quot;, &quot;Rosette Street&quot;, &#xa; &quot;Rosewood Avenue&quot;, &quot;Route 1&quot;, &quot;Rowe Street&quot;, &quot;Roydon Road&quot;, &quot;Ruby Street&quot;, &#xa; &quot;Runo Terrace&quot;, &quot;Russell Street&quot;, &quot;Sachem Street&quot;, &quot;Saint John Street&quot;, &#xa; &quot;Saint Peters Street&quot;, &quot;Saint Ronan Street&quot;, &quot;Salem Street&quot;, &#xa; &quot;Saltonstall Avenue&quot;, &quot;Sargent Drive&quot;, &quot;Science Park&quot;, &quot;Scranton Street&quot;, &#xa; &quot;Sea Street&quot;, &quot;Seneca Road&quot;, &quot;Sheffield Avenue&quot;, &quot;Sheldon Terrace&quot;, &#xa; &quot;Shelter Street&quot;, &quot;Shelton Avenue&quot;, &quot;Sherland Avenue&quot;, &quot;Sherman Avenue&quot;, &#xa; &quot;Sherman Parkway&quot;, &quot;Shoreham Road&quot;, &quot;Smith Avenue&quot;, &quot;Sound View Terrace&quot;, &#xa; &quot;South End Road&quot;, &quot;South Frontage Road&quot;, &quot;South Orange Street&quot;, &#xa; &quot;South Wallace Street&quot;, &quot;South Water Street&quot;, &quot;Spencer Place&quot;, &#xa; &quot;Sperry Street&quot;, &quot;Springside Avenue&quot;, &quot;Spring Street&quot;, &quot;Stanley Street&quot;, &#xa; &quot;Starr Street&quot;, &quot;State Street&quot;, &quot;Stevenson Road&quot;, &quot;Stevens Street&quot;, &#xa; &quot;Stimson Road&quot;, &quot;Strong Street&quot;, &quot;Stuyvesant Avenue&quot;, &quot;Summit Street&quot;, &#xa; &quot;Sylvan Avenue&quot;, &quot;Taylor Avenue&quot;, &quot;Temple Court&quot;, &quot;Temple Street&quot;, &#xa; &quot;Terrace Street&quot;, &quot;Thompson Street&quot;, &quot;Tilton Street&quot;, &quot;Tolli Terrace&quot;, &#xa; &quot;Tour Avenue&quot;, &quot;Tower Parkway&quot;, &quot;Townsend Avenue&quot;, &quot;Townsend Street&quot;, &#xa; &quot;Townsend Terrace&quot;, &quot;Truman Street&quot;, &quot;Trumbull Street&quot;, &quot;Tuttle Drive&quot;, &#xa; &quot;Tuttle Street&quot;, &quot;Union Avenue&quot;, &quot;Union Street&quot;, &quot;University Place&quot;, &#xa; &quot;Upson Terrace&quot;, &quot;U.S. 5&quot;, &quot;Valley Place North&quot;, &quot;Valley Street&quot;, &#xa; &quot;Vernon Street&quot;, &quot;Victory Drive&quot;, &quot;View Street&quot;, &quot;Vine Street&quot;, &#xa; &quot;Vision Trail&quot;, &quot;Vista Terrace&quot;, &quot;Wallace Street&quot;, &quot;Wall Street&quot;, &#xa; &quot;Walnut Street&quot;, &quot;Ward Street&quot;, &quot;Warren Place&quot;, &quot;Warren Street&quot;, &#xa; &quot;Warwick Street&quot;, &quot;Washington Avenue&quot;, &quot;Waterfront Street&quot;, &quot;Water Street&quot;, &#xa; &quot;Watson Street&quot;, &quot;Webster Street&quot;, &quot;Welcome Street&quot;, &quot;Welton Street&quot;, &#xa; &quot;Westbrook Lane&quot;, &quot;West Division Street&quot;, &quot;West Elm Street&quot;, &#xa; &quot;Westerleigh Road&quot;, &quot;West Hazel Street&quot;, &quot;West Hills Road&quot;, &#xa; &quot;West Ivy Street&quot;, &quot;West Park Avenue&quot;, &quot;West Prospect Street&quot;, &#xa; &quot;West Read Street&quot;, &quot;West Rock Avenue&quot;, &quot;West Street&quot;, &quot;Westwood Road&quot;, &#xa; &quot;Weybosset Street&quot;, &quot;Whalley Avenue&quot;, &quot;White Street&quot;, &quot;Whitney Avenue&quot;, &#xa; &quot;Whittier Road&quot;, &quot;Whittlesey Avenue&quot;, &quot;Wilcox Place&quot;, &quot;Willard Street&quot;, &#xa; &quot;William Street&quot;, &quot;Willis Street&quot;, &quot;Willow Street&quot;, &quot;Wilmot Road&quot;, &#xa; &quot;Wilson Street&quot;, &quot;Winchester Avenue&quot;, &quot;Wintergreen Avenue&quot;, &#xa; &quot;Winthrop Avenue&quot;, &quot;Wolcott Street&quot;, &quot;Woodbridge Avenue&quot;, &quot;Woodland Street&quot;, &#xa; &quot;Woodside Terrace&quot;, &quot;Woodward Avenue&quot;, &quot;Woolsey Street&quot;, &quot;Wooster Place&quot;, &#xa; &quot;Wooster Street&quot;, &quot;Wright Avenue&quot;, &quot;Yale Avenue&quot;, &quot;York Street&quot;, &#xa; &quot;Young Street&quot;})"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
@@ -695,6 +830,50 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addressesRunButtonActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JLabel" name="jLabel10">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Sort by Attribute:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel11">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Sort Direction:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="addressSortColumnSelect">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="Issue Type"/>
+                <StringItem index="1" value="Total Issues"/>
+                <StringItem index="2" value="Total Issue Time"/>
+                <StringItem index="3" value="Average Issue Time"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="addressSortDirSelect">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="2">
+                <StringItem index="0" value="Ascending"/>
+                <StringItem index="1" value="Descending"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="startSplash">
@@ -742,7 +921,7 @@
                       <Component id="byNeighborhood" alignment="3" min="-2" pref="49" max="-2" attributes="0"/>
                       <Component id="byAddress" alignment="3" min="-2" pref="49" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="319" max="32767" attributes="0"/>
+                  <EmptySpace pref="321" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
