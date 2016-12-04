@@ -22,6 +22,7 @@ import org.json.JSONArray;
 /**
  *
  * @author Izzhov
+ * @edited emdat (Emon Datta)
  */
 public class Main {
     private String username = "";
@@ -187,7 +188,7 @@ public class Main {
             //System.out.println("id: " + id);
             
             req = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + Double.toString(latitude)
-                    + "," + Double.toString(longitude) + "&result_type=street_address&key=" + key;
+                    + "," + Double.toString(longitude) + "&result_type=street_address|neighborhood|locality|postal_code&key=" + key;
             
             try{
             URL url = new URL(req + "&sensor=false");
@@ -211,101 +212,27 @@ public class Main {
                 //System.out.println(req);
                 jObject = new JSONObject(req);
                 resultArray = jObject.getJSONArray("results");
-                compArray = resultArray.getJSONObject(0).getJSONArray("address_components");//component array
-                //store components
-                street_no = compArray.getJSONObject(0).getString("long_name");
-                street = compArray.getJSONObject(1).getString("long_name");
+
+
+                // Retrieve information on street address and insert into table
+                compArray0 = resultArray.getJSONObject(0).getJSONArray("address_components");
+                street_no = compArray0.getJSONObject(0).getString("long_name");
+                street = compArray0.getJSONObject(1).getString("long_name");
                 x.insertValues(id, street_no, street);
-            }
-            
-            //System.out.println("streetdone");
-            
-            req = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + Double.toString(latitude)
-                    + "," + Double.toString(longitude) + "&result_type=neighborhood&key=" + key;
-            try{
-            URL url = new URL(req + "&sensor=false");
-            URLConnection conn = url.openConnection();
-            ByteArrayOutputStream output = new ByteArrayOutputStream(1024);
-            IOUtils.copy(conn.getInputStream(), output);
-            output.close();
-            req = output.toString();
-            } catch(Exception e)
-            {
-                System.out.println("Geocoding Error");
-            }
-            if(req.contains("OVER_QUERY_LIMIT"))
-            {
-                System.out.println("Over Daily Query Limit");
-                System.exit(0);
-            }
-            if(!req.contains("ZERO_RESULTS"))
-            {
-                jObject = new JSONObject(req);
-                resultArray = jObject.getJSONArray("results");
-                compArray = resultArray.getJSONObject(0).getJSONArray("address_components");//component array
-                //store components
-                neighborhood = compArray.getJSONObject(0).getString("long_name");
-                //now we have to insert these values into the table
+
+                // Retrieve information on neighborhood and insert into table
+                compArray1 = resultArray.getJSONObject(1).getJSONArray("address_components");
+                neighborhood = compArray1.getJSONObject(0).getString("long_name");
                 x.insertNbhd(id, neighborhood);
-            }
-            
-            //System.out.println("nbhddone");
-            
-            req = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + Double.toString(latitude)
-                    + "," + Double.toString(longitude) + "&result_type=locality&key=" + key;
-            try{
-            URL url = new URL(req + "&sensor=false");
-            URLConnection conn = url.openConnection();
-            ByteArrayOutputStream output = new ByteArrayOutputStream(1024);
-            IOUtils.copy(conn.getInputStream(), output);
-            output.close();
-            req = output.toString();
-            } catch(Exception e)
-            {
-                System.out.println("Geocoding Error");
-            }
-            if(req.contains("OVER_QUERY_LIMIT"))
-            {
-                System.out.println("Over Daily Query Limit");
-                System.exit(0);
-            }
-            if(!req.contains("ZERO_RESULTS"))
-            {
-                jObject = new JSONObject(req);
-                resultArray = jObject.getJSONArray("results");
-                compArray = resultArray.getJSONObject(0).getJSONArray("address_components");//component array
-                //store components
-                locality = compArray.getJSONObject(0).getString("long_name");
-                //now we have to insert these values into the table
+
+                // Retrieve information on locality and insert into table
+                compArray2 = resultArray.getJSONObject(2).getJSONArray("address_components");
+                locality = compArray2.getJSONObject(0).getString("long_name");
                 x.insertLocality(id, locality);
-            }
-            
-            req = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + Double.toString(latitude)
-                    + "," + Double.toString(longitude) + "&result_type=postal_code&key=" + key;
-            try{
-            URL url = new URL(req + "&sensor=false");
-            URLConnection conn = url.openConnection();
-            ByteArrayOutputStream output = new ByteArrayOutputStream(1024);
-            IOUtils.copy(conn.getInputStream(), output);
-            output.close();
-            req = output.toString();
-            } catch(Exception e)
-            {
-                System.out.println("Geocoding Error");
-            }
-            if(req.contains("OVER_QUERY_LIMIT"))
-            {
-                System.out.println("Over Daily Query Limit");
-                System.exit(0);
-            }
-            if(!req.contains("ZERO_RESULTS"))
-            {
-                jObject = new JSONObject(req);
-                resultArray = jObject.getJSONArray("results");
-                compArray = resultArray.getJSONObject(0).getJSONArray("address_components");//component array
-                //store components
-                PC = compArray.getJSONObject(0).getString("long_name");
-                //now we have to insert these values into the table
+
+                // Retrieve information on postal code and insert into table
+                compArray3 = resultArray.getJSONObject(3).getJSONArray("address_components");
+                PC = compArray3.getJSONObject(0).getString("long_name");
                 x.insertPC(id, PC);
             }
         }
