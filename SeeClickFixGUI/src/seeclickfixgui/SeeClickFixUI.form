@@ -620,7 +620,7 @@
                           <Component id="jScrollPane4" min="-2" pref="384" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="194" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="190" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="addressesRunButton" min="-2" pref="125" max="-2" attributes="0"/>
@@ -697,7 +697,7 @@
                               <Component id="addressesRemoveAll" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="addressesRemoveSelected" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="63" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="55" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -921,7 +921,7 @@
                       <Component id="byNeighborhood" alignment="3" min="-2" pref="49" max="-2" attributes="0"/>
                       <Component id="byAddress" alignment="3" min="-2" pref="49" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="321" max="32767" attributes="0"/>
+                  <EmptySpace pref="319" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

@@ -823,7 +823,7 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         establishConnection();
         
         //perform the query and store the results in rs
-        ResultSet rs = performQuery(startDateSQL, endDateSQL, neighborhoodQuery);
+        ResultSet rs = performQuery(startDateSQL, endDateSQL, neighborhoodQuery, sortColumn, sortOrder);
         
         //declare the table columns
         LinkedList issues = new LinkedList();
@@ -1083,7 +1083,7 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         establishConnection();
         
         //perform the query and store the results in rs
-        ResultSet rs = performAddressQuery(startDateSQL, endDateSQL, addressQuery);
+        ResultSet rs = performAddressQuery(startDateSQL, endDateSQL, addressQuery, sortColumn, sortOrder);
         
         //declare the table columns
         LinkedList issues = new LinkedList();
@@ -1181,7 +1181,7 @@ public class SeeClickFixUI extends javax.swing.JFrame {
     }
     
     //run query
-    public ResultSet performQuery(String startDate, String endDate, String nbhdQuery){
+    public ResultSet performQuery(String startDate, String endDate, String nbhdQuery, int sortColumn, int sortOrder){
         ResultSet rs = null;
         Statement s = null;
         try
@@ -1205,7 +1205,19 @@ public class SeeClickFixUI extends javax.swing.JFrame {
                     + "FROM req_times "
                     + "GROUP BY id) AS issue_group "
                     + "WHERE request_types.id = issue_group.id "
-                    + "ORDER BY num_issues DESC";
+                    + "ORDER BY ";
+            
+            //figure out sortColumn and sortOrder
+            switch(sortColumn) {
+                case 0: queryString += "name "; break;
+                case 1: queryString += "num_issues "; break;
+                case 2: queryString += "tot_issue_time "; break;
+                case 3: queryString += "avg_issue_time "; break;
+                default: queryString += "Invalid Sort Column"; break;
+            }
+            
+            if(sortOrder==0) queryString += "ASC";
+            else queryString+= "DESC";
             //System.out.println(queryString);
             
             rs = s.executeQuery(queryString);
@@ -1216,7 +1228,7 @@ public class SeeClickFixUI extends javax.swing.JFrame {
         return rs;
     }
     
-        public ResultSet performAddressQuery(String startDate, String endDate, String addressQuery){
+        public ResultSet performAddressQuery(String startDate, String endDate, String addressQuery, int sortColumn, int sortOrder){
         ResultSet rs = null;
         Statement s = null;
         try
@@ -1240,7 +1252,19 @@ public class SeeClickFixUI extends javax.swing.JFrame {
                     + "FROM req_times "
                     + "GROUP BY id) AS issue_group "
                     + "WHERE request_types.id = issue_group.id "
-                    + "ORDER BY num_issues DESC";
+                    + "ORDER BY ";
+            
+            //figure out sortColumn and sortOrder
+            switch(sortColumn) {
+                case 0: queryString += "name "; break;
+                case 1: queryString += "num_issues "; break;
+                case 2: queryString += "tot_issue_time "; break;
+                case 3: queryString += "avg_issue_time "; break;
+                default: queryString += "Invalid Sort Column"; break;
+            }
+            
+            if(sortOrder==0) queryString += "ASC";
+            else queryString+= "DESC";
             //System.out.println(queryString);
             
             rs = s.executeQuery(queryString);
