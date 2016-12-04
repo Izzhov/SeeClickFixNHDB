@@ -1,13 +1,16 @@
 #!/usr/bin/python3
-# Programmer: Emon Datta
-# Download SeeClickFix data and saves to 
+# Author: Emon Datta (emdat)
+# Downloads SeeClickFix data and saves to database tables. 
 
 import requests
 import psycopg2
 user_ids = []
 request_types = []
 
-def add_user(cur, user):
+# Add the specified user to the users table if it has not already been entered.
+def add_user(conn, cur, user):
+
+    # Check if we have already added information for this user. 
     if user['id'] in user_ids:
         return
     user_ids.append(user['id'])
@@ -19,6 +22,7 @@ def add_user(cur, user):
         conn.rollback()
         user_exists = False
 
+    # If we do not already have the user's info in the table, add it. 
     if not user_exists:
         try:
             cur.execute("""INSERT INTO test_users(id, name, witty_title, role, civic_points) VALUES(%s, %s, %s, %s, %s);""", (user['id'], user['name'], user['witty_title'], user['role'], user['civic_points'],))
@@ -27,7 +31,7 @@ def add_user(cur, user):
             print(e)
             conn.rollback()
 
-def add_request_type(cur, request_type):
+def add_request_type(conn, cur, request_type):
     if request_type['id'] in request_types:
         return
     request_types.append(request_type['id'])
@@ -47,9 +51,10 @@ def add_request_type(cur, request_type):
             conn.rollback()
 
 
+# Base url to retrive New Haven issues from SeeClickFix API
 url = 'https://seeclickfix.com/api/v2/issues?page=1&per_page=30&details=true&status=open,acknowledged,closed,archived&place_url=new-haven-county'
-#parameters = {'page':'1', 'per_page':'30', 'details':'true', 'status':'open,acknowledged,closed,archived'}
 
+# Connect to database
 conn = psycopg2.connect(database="mydb", user="postgres", password="havens1260havenots", host="50.177.247.244")
 conn.autocommit = True
 cur = conn.cursor()
@@ -72,7 +77,7 @@ while url:
         r = requests.get(url)
         tries+=1;
 
-    # Server errors or client errors
+    # Persistent erver errors or client errors
     if tries > 50 or r.status_code is 400 or r.status_code is 422:
         break;
 
@@ -87,26 +92,32 @@ while url:
     if issues is None or len(issues)<=0:
         break;
 
-    # TODO: Add comments, questions, users (reporters/assignees) to separate tables
+    # Add comments, questions, users (reporters/assignees) to separate tables
     for issue in issues:
+
+        # Skip if no issue id
         if not issue['id']:
             continue
 
+        # Take care of assignee id if null
         if not issue['assignee']:
             assignee_id = None
         else:
             assignee_id = issue['assignee']['id']
 
+        # Take care of reporter id if null
         if not issue['reporter']:
             reporter_id = None
         else:
             reporter_id = issue['reporter']['id']
 
+        # Take care of request type id if null
         if not issue['request_type']:
             request_type_id = None
         else:
             request_type_id = issue['request_type']['id']
 
+        # Attempt to add the issue information into the table
         try:
             cur.execute("""INSERT INTO test_issues_new_haven(id, status, summary, description, rating, latitude, longitude, address, created_at, acknowledged_at, closed_at, reopened_at, updated_at, comment_count, vote_count, request_type_id, reporter_id, assignee_id) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (issue['id'], issue['status'], issue['summary'], issue['description'], issue['rating'], issue['lat'], issue['lng'], issue['address'], issue['created_at'], issue['acknowledged_at'], issue['closed_at'], issue['reopened_at'], issue['updated_at'], issue['comments_count'], issue['vote_count'], request_type_id, reporter_id, assignee_id,))
         except Exception as e:
@@ -114,13 +125,17 @@ while url:
             print(e)
             conn.rollback()
 
+        # If the information exists and is not already recorded, add users for reporter and assignee. 
         if reporter_id:
-            add_user(cur, issue['reporter'])
+            add_user(conn, cur, issue['reporter'])
         if assignee_id:
-            add_user(cur, issue['assignee'])
-        if request_type_id:
-            add_request_type(cur, issue['request_type'])
+            add_user(conn, cur, issue['assignee'])
 
+        # If the information exists and is not already recorded, add request type id/name information. 
+        if request_type_id:
+            add_request_type(conn, cur, issue['request_type'])
+
+        # If there are any comments for the current issue, add them all to the comments table one by one. 
         if issue['comments_count'] > 0:
             for comment in issue['comments']:
                 if not comment['commenter']:
@@ -134,8 +149,9 @@ while url:
                     print(e)
                     conn.rollback()
                 if commenter_id:
-                    add_user(cur, comment['commenter'])
+                    add_user(conn, cur, comment['commenter'])
 
+        # If there are any questions for the current issue, add them all to the questions table one by one. 
         if issue['questions']:
             for question in issue['questions']:
                 try:
@@ -145,9 +161,9 @@ while url:
                     print(e)
                     conn.rollback()
 
+    # Retrieve the url for the next page of results. 
     url = data['metadata']['pagination']['next_page_url']
     print('page {} of {}'.format(data['metadata']['pagination']['page'], data['metadata']['pagination']['pages']))
-    #url = None
 
 cur.close()
 conn.close()
